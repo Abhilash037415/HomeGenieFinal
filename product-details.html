@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Genie - Product Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+      /* Vanta.js background styles */
+      #vanta-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      
+      /* Navbar styles */
+      header {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 100;
+      }
+      
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .logo img {
+        height: 40px;
+      }
+      
+      .logo h1 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        color: #333;
+        font-size: 24px;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 25px;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      
+      .nav-links a:hover {
+        color: #4361ee;
+      }
+      
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      /* Sidebar styles */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        display: none;
+      }
+      
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 280px;
+        height: 100%;
+        background: white;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        z-index: 999;
+        transition: left 0.3s;
+        padding: 20px;
+      }
+      
+      .sidebar-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 20px;
+        margin-bottom: 30px;
+        color: #333;
+      }
+      
+      .sidebar-nav {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .sidebar-nav li {
+        margin-bottom: 15px;
+      }
+      
+      .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #555;
+        font-family: 'Poppins', sans-serif;
+        padding: 8px 12px;
+        border-radius: 5px;
+      }
+      
+      .sidebar-nav a:hover, .sidebar-nav a.active {
+        background: #f0f4ff;
+        color: #4361ee;
+      }
+      
+      /* Product Details styles */
+      .product-details-container {
+        max-width: 1400px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+      
+      .product-details-content {
+        display: flex;
+        gap: 40px;
+      }
+      
+      .product-images {
+        flex: 1;
+      }
+      
+      .main-image {
+        width: 100%;
+        height: 400px;
+        object-fit: contain;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+      
+      .thumbnail-container {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+      
+      .thumbnail:hover {
+        border-color: #4361ee;
+      }
+      
+      .product-info {
+        flex: 1;
+      }
+      
+      .product-title {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .brand-name {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 15px;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .stars {
+        color: #FFD700;
+        margin-right: 10px;
+      }
+      
+      .review-count {
+        color: #4361ee;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .price-container {
+        margin: 25px 0;
+      }
+      
+      .original-price {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: #999;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .discounted-price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #4361ee;
+        margin-right: 15px;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .discount-badge {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .availability {
+        color: #388e3c;
+        font-weight: 500;
+        margin: 15px 0;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .delivery-info {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .delivery-info i {
+        color: #4361ee;
+        margin-right: 10px;
+      }
+      
+      .quantity-selector {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+      
+      .quantity-btn {
+        width: 30px;
+        height: 30px;
+        background: #f0f0f0;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      .quantity-input {
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        margin: 0 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+      }
+      
+      .buy-now-btn {
+        padding: 12px 30px;
+        background: #4361ee;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .buy-now-btn:hover {
+        background: #3a56d4;
+      }
+      
+      .add-to-cart-btn {
+        padding: 12px 30px;
+        background: white;
+        color: #4361ee;
+        border: 1px solid #4361ee;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .add-to-cart-btn:hover {
+        background: #f0f4ff;
+      }
+      
+      .product-description {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+      
+      .description-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .description-content {
+        color: #555;
+        line-height: 1.6;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .specifications {
+        margin-top: 30px;
+      }
+      
+      .specs-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .specs-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .specs-table tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+      
+      .specs-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .spec-name {
+        font-weight: 600;
+        width: 30%;
+      }
+      
+      /* Responsive styles */
+      @media (max-width: 992px) {
+        .product-details-content {
+          flex-direction: column;
+        }
+        
+        .main-image {
+          height: 300px;
+        }
+        
+        .nav-links {
+          display: none;
+        }
+        
+        .menu-toggle {
+          display: block;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .action-buttons {
+          flex-direction: column;
+        }
+        
+        .buy-now-btn, .add-to-cart-btn {
+          width: 100%;
+        }
+        
+        .thumbnail-container {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <header>
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <img src="https://via.placeholder.com/150x50?text=HomeGenie" alt="logo">
+            <h1>HomeGenie</h1>
+          </div>
+          <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="nav-links">
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="professionals.html">Professionals</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <h3 class="sidebar-title">Menu</h3>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="products.html"><i class="fas fa-box-open"></i> Products</a></li>
+        <li><a href="services.html"><i class="fas fa-concierge-bell"></i> Services</a></li>
+        <li><a href="professionals.html"><i class="fas fa-users"></i> Professionals</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        <li><a href="../project 2-2/index.html"><i class="fas fa-user"></i> Account</a></li>
+      </ul>
+    </aside>
+    
+    <div class="product-details-container">
+      <div class="product-details-content">
+        <div class="product-images">
+          <img id="main-image" src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop" alt="Smart TV" class="main-image">
+          <div class="thumbnail-container">
+            <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop" alt="Thumbnail 1" class="thumbnail" onclick="changeImage(this)">
+            <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=500&auto=format&fit=crop" alt="Thumbnail 2" class="thumbnail" onclick="changeImage(this)">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&auto=format&fit=crop" alt="Thumbnail 3" class="thumbnail" onclick="changeImage(this)">
+            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop" alt="Thumbnail 4" class="thumbnail" onclick="changeImage(this)">
+          </div>
+        </div>
+        
+        <div class="product-info">
+          <h1 class="product-title">Samsung 43-inch 4K UHD Smart TV</h1>
+          <div class="brand-name">Brand: Samsung</div>
+          
+          <div class="rating">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <span class="review-count">1,234 Reviews</span>
+          </div>
+          
+          <div class="price-container">
+            <span class="discounted-price">₹31,999</span>
+            <span class="original-price">₹35,990</span>
+            <span class="discount-badge">11% OFF</span>
+          </div>
+          
+          <div class="availability">
+            <i class="fas fa-check-circle"></i> In Stock (Only 5 left)
+          </div>
+          
+          <div class="delivery-info">
+            <div><i class="fas fa-truck"></i> Free delivery on orders over ₹499</div>
+            <div><i class="fas fa-undo"></i> 7 days easy returns</div>
+            <div><i class="fas fa-shield-alt"></i> 1 year warranty</div>
+          </div>
+          
+          <div class="quantity-selector">
+            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+            <input type="number" value="1" min="1" class="quantity-input" id="quantity">
+            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="buy-now-btn" onclick="buyNow()">BUY NOW</button>
+            <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+          </div>
+          
+          <div class="product-description">
+            <h3 class="description-title">Product Description</h3>
+            <p class="description-content">
+              Experience stunning 4K UHD resolution with the Samsung 43-inch Smart TV. 
+              Powered by the Crystal Processor 4K, this TV optimizes picture quality 
+              and sound to deliver an immersive viewing experience. With HDR10+ support, 
+              you'll enjoy a wider range of colors and incredible detail. The built-in 
+              Alexa and Bixby voice assistants make it easy to control your TV and 
+              smart home devices. Stream your favorite shows from Netflix, Prime Video, 
+              Disney+ and more with the built-in apps.
+            </p>
+          </div>
+          
+          <div class="specifications">
+            <h3 class="specs-title">Specifications</h3>
+            <table class="specs-table">
+              <tr>
+                <td class="spec-name">Display Size</td>
+                <td>43 inches</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Resolution</td>
+                <td>4K Ultra HD (3840 x 2160)</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Smart TV</td>
+                <td>Yes (Tizen OS)</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Processor</td>
+                <td>Crystal Processor 4K</td>
+              </tr>
+              <tr>
+                <td class="spec-name">HDR</td>
+                <td>HDR10+, HLG</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Sound Output</td>
+                <td>20W (2ch)</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Ports</td>
+                <td>3 x HDMI, 2 x USB, Ethernet, Optical Audio Out</td>
+              </tr>
+              <tr>
+                <td class="spec-name">Warranty</td>
+                <td>1 Year Manufacturer Warranty</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x4361ee,
+        backgroundColor: 0xf8f9fa,
+        points: 10.00,
+        maxDistance: 22.00,
+        spacing: 18.00
+      });
+
+      // Sidebar toggle functionality
+      const menuToggle = document.getElementById('menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      
+      menuToggle.addEventListener('click', () => {
+        sidebar.style.left = '0';
+        sidebarOverlay.style.display = 'block';
+      });
+      
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.style.left = '-300px';
+        sidebarOverlay.style.display = 'none';
+      });
+
+      // Change main product image when thumbnail is clicked
+      function changeImage(element) {
+        document.getElementById('main-image').src = element.src;
+      }
+      
+      // Quantity selector functionality
+      function changeQuantity(change) {
+        const quantityInput = document.getElementById('quantity');
+        let currentValue = parseInt(quantityInput.value);
+        currentValue += change;
+        
+        if (currentValue < 1) currentValue = 1;
+        if (currentValue > 10) currentValue = 10;
+        
+        quantityInput.value = currentValue;
+      }
+      
+      // Buy Now button functionality
+      function buyNow() {
+        const quantity = document.getElementById('quantity').value;
+        alert(`You are purchasing ${quantity} item(s) of Samsung 43-inch 4K UHD Smart TV`);
+        // In a real implementation, this would redirect to checkout page
+        // window.location.href = 'checkout.html';
+      }
+      
+      // Add to Cart button functionality
+      function addToCart() {
+        const quantity = document.getElementById('quantity').value;
+        alert(`Added ${quantity} item(s) of Samsung 43-inch 4K UHD Smart TV to your cart`);
+        // In a real implementation, this would add the item to the cart
+      }
+    </script>
+  </body>
+</html>

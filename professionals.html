@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home genie - Our Trusted Professionals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+        }
+
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--gray);
+        }
+
+        /* Experts Intro */
+        .experts-intro {
+            padding: 80px 0;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .intro-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+
+        .intro-text h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .intro-text p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .expert-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card h4 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        /* Professionals Filter */
+        .professionals-filter {
+            padding: 40px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filter-title {
+            font-size: 24px;
+            color: var(--dark);
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            background: var(--light-gray);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid var(--light-gray);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        /* Professionals Grid */
+        .professionals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .professional-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: none; /* Initially hidden for filtering */
+        }
+
+        .professional-card.visible {
+            display: block;
+        }
+
+        .professional-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .professional-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .professional-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .professional-badge.elite {
+            background: #ffc107;
+            color: var(--dark);
+        }
+
+        .professional-badge.pro {
+            background: #6c757d;
+        }
+
+        .professional-badge.new {
+            background: #28a745;
+        }
+
+        .professional-info {
+            padding: 20px;
+        }
+
+        .professional-name {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .professional-category {
+            color: var(--primary);
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .professional-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .skill-tag {
+            background: var(--light-gray);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+        }
+
+        .professional-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .professional-rating {
+            color: #ffc107;
+            font-weight: 500;
+        }
+
+        .professional-rating span {
+            color: var(--gray);
+            font-weight: normal;
+        }
+
+        .professional-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .professional-status.busy {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Become Partner CTA */
+        .become-partner {
+            padding: 80px 0;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            margin-top: 80px;
+        }
+
+        .become-partner h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .become-partner p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Application Form Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .close-modal:hover {
+            color: var(--dark);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-submit:hover {
+            background: var(--secondary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .expert-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 40px;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .filter-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .category-filter {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <!-- Navbar -->
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Home genie Logo">
+
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="professionals.html">Professionals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Meet Our Trusted Professionals</h2>
+            <p>Highly skilled, background-checked service providers ready to help with your home service needs.</p>
+        </div>
+    </section>
+    
+    <!-- Experts Intro -->
+    <section class="experts-intro">
+        <div class="container">
+            <h2 class="section-title">Why Choose Our <span>Experts</span></h2>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h3>Quality Professionals You Can Trust</h3>
+                    <p>At Servizio, we rigorously vet all our service providers to ensure they meet our high standards of quality, reliability, and professionalism.</p>
+                    <p>Each expert undergoes background checks, skills verification, and customer service training before joining our platform.</p>
+                    <p>We continuously monitor performance and customer feedback to maintain our quality standards.</p>
+                </div>
+                <div class="expert-stats">
+                    <div class="stat-card">
+                        <h4>98%</h4>
+                        <p>Customer Satisfaction Rate</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>500+</h4>
+                        <p>Verified Professionals</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>10,000+</h4>
+                        <p>Completed Jobs</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>24/7</h4>
+                        <p>Support Availability</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Professionals Filter -->
+    <section class="professionals-filter">
+        <div class="container">
+            <div class="filter-container">
+                <div class="filter-header">
+                    <h3 class="filter-title">Find Your Perfect Professional</h3>
+                    <div class="category-filter">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="cleaning">Cleaning</button>
+                        <button class="category-btn" data-category="plumbing">Plumbing</button>
+                        <button class="category-btn" data-category="electrical">Electrical</button>
+                        <button class="category-btn" data-category="beauty">Beauty</button>
+                        <button class="category-btn" data-category="handyman">Handyman</button>
+                        <button class="category-btn" data-category="appliance">Appliance</button>
+                        <button class="category-btn" data-category="moving">Moving</button>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search professionals...">
+                    </div>
+                </div>
+                
+                <div class="professionals-grid">
+                    <!-- Professional 1 -->
+                    <div class="professional-card visible" data-categories="cleaning" data-name="Sarah Johnson">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2')">
+                            <span class="professional-badge">Top Rated</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Sarah Johnson</h3>
+                            <span class="professional-category">Cleaning Specialist</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Deep Cleaning</span>
+                                <span class="skill-tag">Office Cleaning</span>
+                                <span class="skill-tag">Eco-Friendly</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.9 <span>(128 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 2 -->
+                    <div class="professional-card visible" data-categories="plumbing" data-name="Michael Chen">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956')">
+                            <span class="professional-badge">New</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Michael Chen</h3>
+                            <span class="professional-category">Licensed Plumber</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Pipe Repair</span>
+                                <span class="skill-tag">Installation</span>
+                                <span class="skill-tag">Leak Detection</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.8 <span>(76 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 3 -->
+                    <div class="professional-card visible" data-categories="electrical" data-name="Emily Rodriguez">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2')">
+                            <span class="professional-badge">Pro</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Emily Rodriguez</h3>
+                            <span class="professional-category">Electrician</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Wiring</span>
+                                <span class="skill-tag">Lighting</span>
+                                <span class="skill-tag">Safety Checks</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 5.0 <span>(214 reviews)</span>
+                                </div>
+                                <span class="professional-status busy">Booked Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 4 -->
+                    <div class="professional-card visible" data-categories="handyman" data-name="David Wilson">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1595475884562-073c30d45670')">
+                            <span class="professional-badge elite">Elite</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">David Wilson</h3>
+                            <span class="professional-category">Handyman</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Furniture Assembly</span>
+                                <span class="skill-tag">Painting</span>
+                                <span class="skill-tag">General Repairs</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.7 <span>(92 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Tomorrow</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 5 -->
+                    <div class="professional-card visible" data-categories="beauty" data-name="Jessica Lee">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7')">
+                            <span class="professional-badge">Top Rated</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Jessica Lee</h3>
+                            <span class="professional-category">Beauty Specialist</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Hair Styling</span>
+                                <span class="skill-tag">Makeup</span>
+                                <span class="skill-tag">Nails</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.9 <span>(187 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 6 -->
+                    <div class="professional-card visible" data-categories="appliance" data-name="Robert Taylor">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a')">
+                            <span class="professional-badge pro">Pro</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Robert Taylor</h3>
+                            <span class="professional-category">Appliance Repair</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Refrigerators</span>
+                                <span class="skill-tag">Washers/Dryers</span>
+                                <span class="skill-tag">Ovens</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.8 <span>(143 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 7 -->
+                    <div class="professional-card visible" data-categories="moving" data-name="James Wilson">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d')">
+                            <span class="professional-badge">New</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">James Wilson</h3>
+                            <span class="professional-category">Moving Specialist</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Packing</span>
+                                <span class="skill-tag">Loading</span>
+                                <span class="skill-tag">Transport</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.7 <span>(65 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 8 -->
+                    <div class="professional-card visible" data-categories="cleaning" data-name="Maria Garcia">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2')">
+                            <span class="professional-badge elite">Elite</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Maria Garcia</h3>
+                            <span class="professional-category">House Cleaning</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Deep Cleaning</span>
+                                <span class="skill-tag">Organization</span>
+                                <span class="skill-tag">Laundry</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.9 <span>(201 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Tomorrow</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 9 -->
+                    <div class="professional-card visible" data-categories="electrical" data-name="Thomas Brown">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d')">
+                            <span class="professional-badge pro">Pro</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Thomas Brown</h3>
+                            <span class="professional-category">Electrician</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Panel Upgrade</span>
+                                <span class="skill-tag">Outdoor Lighting</span>
+                                <span class="skill-tag">Smart Home</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.8 <span>(156 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 10 -->
+                    <div class="professional-card visible" data-categories="plumbing" data-name="Lisa Wong">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e')">
+                            <span class="professional-badge">Top Rated</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Lisa Wong</h3>
+                            <span class="professional-category">Plumber</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Drain Cleaning</span>
+                                <span class="skill-tag">Water Heaters</span>
+                                <span class="skill-tag">Bathroom Remodel</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 5.0 <span>(178 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 11 -->
+                    <div class="professional-card visible" data-categories="beauty" data-name="Sophia Martinez">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e')">
+                            <span class="professional-badge elite">Elite</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Sophia Martinez</h3>
+                            <span class="professional-category">Beauty Expert</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Hair Coloring</span>
+                                <span class="skill-tag">Bridal Makeup</span>
+                                <span class="skill-tag">Skin Care</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.9 <span>(231 reviews)</span>
+                                </div>
+                                <span class="professional-status busy">Booked Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Professional 12 -->
+                    <div class="professional-card visible" data-categories="handyman" data-name="Daniel Kim">
+                        <div class="professional-image" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e')">
+                            <span class="professional-badge">New</span>
+                        </div>
+                        <div class="professional-info">
+                            <h3 class="professional-name">Daniel Kim</h3>
+                            <span class="professional-category">Handyman</span>
+                            <div class="professional-skills">
+                                <span class="skill-tag">Drywall Repair</span>
+                                <span class="skill-tag">Carpentry</span>
+                                <span class="skill-tag">Tile Work</span>
+                            </div>
+                            <div class="professional-meta">
+                                <div class="professional-rating">
+                                    <i class="fas fa-star"></i> 4.6 <span>(87 reviews)</span>
+                                </div>
+                                <span class="professional-status">Available Today</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Become Partner CTA -->
+    <section class="become-partner">
+        <div class="container">
+            <h2>Are You a Service Professional?</h2>
+            <p>Join our network of trusted professionals and grow your business with Servizio.</p>
+            <div class="btn-group">
+                <button id="apply-btn" class="btn btn-primary">Apply Now</button>
+                <a href="#" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Application Form Modal -->
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="form-title">Join Our Professional Network</h2>
+            <form id="professional-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Service Category</label>
+                    <select id="service" required>
+                        <option value="">Select your service</option>
+                        <option value="cleaning">Cleaning Services</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="handyman">Handyman Services</option>
+                        <option value="beauty">Beauty & Wellness</option>
+                        <option value="appliance">Appliance Repair</option>
+                        <option value="moving">Moving Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Years of Experience</label>
+                    <select id="experience" required>
+                        <option value="">Select experience</option>
+                        <option value="0-1">0-1 years</option>
+                        <option value="1-3">1-3 years</option>
+                        <option value="3-5">3-5 years</option>
+                        <option value="5+">5+ years</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Service Area (City/Region)</label>
+                    <input type="text" id="location" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Tell us about your services</label>
+                    <textarea id="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="certifications">Certifications or Licenses (if any)</label>
+                    <textarea id="certifications"></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <img src="logo.png" alt="Home Genie Logo">
+                        <h1>Home Genie</h1>
+                    </div>
+                    <p>Your trusted partner for all home services. Quality professionals at your doorstep.</p>
+                    <div class="footer-social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="professionals.html">Professionals</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Laundry</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> vignan university</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> homegenie@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Home Genie All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x4361ee,
+            backgroundColor: 0xf8f9fa,
+            points: 10.00,
+            maxDistance: 22.00,
+            spacing: 18.00
+        });
+        
+        // Category filter functionality
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const professionalCards = document.querySelectorAll('.professional-card');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                // Filter professionals
+                professionalCards.forEach(card => {
+                    const cardCategories = card.dataset.categories.split(' ');
+                    
+                    if (category === 'all' || cardCategories.includes(category)) {
+                        card.classList.add('visible');
+                    } else {
+                        card.classList.remove('visible');
+                    }
+                });
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            professionalCards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                
+                if (name.includes(searchTerm)) {
+                    card.classList.add('visible');
+                } else {
+                    card.classList.remove('visible');
+                }
+            });
+        });
+        
+        // Application modal functionality
+        const modal = document.getElementById('application-modal');
+        const applyBtn = document.getElementById('apply-btn');
+        const closeModal = document.querySelector('.close-modal');
+        
+        applyBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Form submission
+        const professionalForm = document.getElementById('professional-form');
+        professionalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For this demo, we'll just show an alert
+            alert('Thank you for your application! We will review your information and get back to you soon.');
+            
+            // Reset form and close modal
+            professionalForm.reset();
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>

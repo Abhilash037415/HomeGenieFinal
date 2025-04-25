@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home genieHome genie - My Bookings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="Home genie Logo">
+                </div>
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="professionals.html">Professionals</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <h3 class="sidebar-title">Dashboard</h3>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="bookings.html" class="active"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+                <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="container">
+            <main class="main-content">
+                <!-- Bookings Section -->
+                <section class="content-section active" id="bookings-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Upcoming Bookings</h2>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Electrical Wiring Repair</h3>
+                                <p>Today, 2:00 PM - 4:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Kitchen Deep Cleaning</h3>
+                                <p>Tomorrow, 10:00 AM - 12:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Plumbing Inspection</h3>
+                                <p>Friday, 9:00 AM - 11:00 AM</p>
+                                <span class="booking-status status-pending">Pending Confirmation</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Booking History -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Booking History</h2>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>AC Maintenance Service</h3>
+                                <p>June 15, 2023 - Completed</p>
+                                <p>Rating: ★★★★★ (5.0)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Carpet Cleaning</h3>
+                                <p>May 28, 2023 - Completed</p>
+                                <p>Rating: ★★★★☆ (4.5)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Appliance Repair</h3>
+                                <p>April 10, 2023 - Completed</p>
+                                <p>Rating: ★★★★★ (5.0)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Modal -->
+    <div class="modal" id="logout-modal">
+        <div class="modal-content">
+            <h2>Are you sure you want to logout?</h2>
+            <p>You'll need to sign in again to access your dashboard.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancel-logout">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirm-logout">Yes, Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Booking Cancellation Modal -->
+    <div class="modal" id="cancel-booking-modal">
+        <div class="modal-content">
+            <h2>Cancel Booking</h2>
+            <p>Are you sure you want to cancel this booking? A cancellation fee may apply.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancel-cancel-booking">Don't Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirm-cancel-booking">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

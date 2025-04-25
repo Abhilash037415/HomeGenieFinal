@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home genie - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="Home genie Logo">
+                </div>
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="professionals.html">Professionals</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <h3 class="sidebar-title">Dashboard</h3>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="bookings.html"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+                <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="container">
+            <main class="main-content">
+                <!-- Profile Section -->
+                <section class="content-section active" id="profile-section">
+                    <div class="card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                                <div class="profile-avatar-upload">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <h2>Alex Johnson</h2>
+                                <p>Member since June 2022</p>
+                                <div class="profile-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    (4.7 from 12 reviews)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <div class="detail-card">
+                                <h3>Personal Information</h3>
+                                <div class="detail-item">
+                                    <label>Full Name</label>
+                                    <p>Alex Johnson</p>
+                                    <input type="text" value="Alex Johnson" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Email</label>
+                                    <p>alex.johnson@example.com</p>
+                                    <input type="email" value="alex.johnson@example.com" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Phone</label>
+                                    <p>(555) 123-4567</p>
+                                    <input type="tel" value="(555) 123-4567" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-personal-btn">Edit Information</button>
+                                <button class="save-btn" id="save-personal-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-personal-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Address</h3>
+                                <div class="detail-item">
+                                    <label>Street</label>
+                                    <p>123 Main Street</p>
+                                    <input type="text" value="123 Main Street" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>City</label>
+                                    <p>New York</p>
+                                    <input type="text" value="New York" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>ZIP Code</label>
+                                    <p>10001</p>
+                                    <input type="text" value="10001" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-address-btn">Edit Address</button>
+                                <button class="save-btn" id="save-address-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-address-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Account Security</h3>
+                                <div class="detail-item">
+                                    <label>Password</label>
+                                    <p>••••••••••</p>
+                                    <input type="password" placeholder="Enter new password" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Two-Factor Authentication</label>
+                                    <p>Disabled</p>
+                                    <select style="display: none;">
+                                        <option>Disabled</option>
+                                        <option>Enabled</option>
+                                    </select>
+                                </div>
+                                <button class="edit-btn" id="edit-security-btn">Change Password</button>
+                                <button class="save-btn" id="save-security-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-security-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Payment Methods</h3>
+                                <div class="detail-item">
+                                    <label>Credit Card</label>
+                                    <p>VISA •••• •••• •••• 4242</p>
+                                    <input type="text" value="VISA •••• •••• •••• 4242" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>PayPal</label>
+                                    <p>alex.johnson@example.com</p>
+                                    <input type="email" value="alex.johnson@example.com" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-payment-btn">Manage Payments</button>
+                                <button class="save-btn" id="save-payment-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-payment-btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Modal -->
+    <div class="modal" id="logout-modal">
+        <div class="modal-content">
+            <h2>Are you sure you want to logout?</h2>
+            <p>You'll need to sign in again to access your dashboard.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancel-logout">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirm-logout">Yes, Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

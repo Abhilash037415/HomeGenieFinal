@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Genie - User Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card,
+        body.dark-mode .sidebar,
+        body.dark-mode .search-bar,
+        body.dark-mode .detail-card,
+        body.dark-mode .payment-method,
+        body.dark-mode .modal-content {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .card-header,
+        body.dark-mode .detail-card h3,
+        body.dark-mode .sidebar-title {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .nav-links a,
+        body.dark-mode .sidebar-nav a,
+        body.dark-mode .footer-links a,
+        body.dark-mode .footer p,
+        body.dark-mode .footer-bottom,
+        body.dark-mode .footer-links li,
+        body.dark-mode .detail-item label,
+        body.dark-mode .notification-content p,
+        body.dark-mode .setting-info p,
+        body.dark-mode .payment-info p,
+        body.dark-mode .availability-text p,
+        body.dark-mode .booking-info p {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .footer {
+            background-color: #111;
+        }
+
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .nav-links a {
+            color: var(--dark-text);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            position: relative;
+            z-index: 10;
+            padding-top: 40px;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px 20px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            flex-shrink: 0;
+        }
+
+        body.dark-mode .sidebar {
+            background: var(--dark-card);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        body.dark-mode .sidebar-nav a {
+            color: var(--dark-text);
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--primary);
+        }
+
+        body.dark-mode .sidebar-nav a:hover,
+        body.dark-mode .sidebar-nav a.active {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        .sidebar-nav i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Content Sections - Initially Hidden */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Hero Banner */
+        .dashboard-hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-hero h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dashboard-hero p {
+            margin-bottom: 25px;
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dashboard-hero .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        body.dark-mode .search-bar {
+            background: var(--dark-card);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            background: transparent;
+            color: inherit;
+        }
+
+        .search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        body.dark-mode .card {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .card-header a {
+            color: var(--primary);
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Availability Card */
+        .availability-card {
+            display: flex;
+            align-items: center;
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .availability-card {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .availability-icon {
+            font-size: 24px;
+            color: var(--success);
+            margin-right: 15px;
+        }
+
+        .availability-text h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .availability-text p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Referral Card */
+        .referral-card {
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .referral-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .referral-card p {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .referral-code {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .referral-code span {
+            font-family: monospace;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-right: 15px;
+        }
+
+        .referral-code button {
+            background: white;
+            color: var(--warning);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .referral-social {
+            display: flex;
+            gap: 10px;
+        }
+
+        .referral-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+        }
+
+        /* Bookings */
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        body.dark-mode .booking-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+
+        .booking-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .booking-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .status-confirmed {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+
+        .status-completed {
+            background: rgba(60, 179, 113, 0.1);
+            color: #3cb371;
+        }
+
+        .status-cancelled {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .booking-actions a {
+            color: var(--primary);
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 15px;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body.dark-mode .profile-avatar {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar i {
+            font-size: 40px;
+            color: var(--gray);
+        }
+
+        body.dark-mode .profile-avatar i {
+            color: var(--dark-text);
+        }
+
+        .profile-avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .profile-rating {
+            color: #ffc107;
+            font-size: 14px;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        body.dark-mode .detail-card {
+            background: var(--dark-card);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .detail-card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-item label {
+            display: block;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .detail-item p {
+            font-size: 16px;
+        }
+
+        .detail-item input, .detail-item select, .detail-item textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            display: none;
+            background: transparent;
+            color: inherit;
+        }
+
+        body.dark-mode .detail-item input,
+        body.dark-mode .detail-item select,
+        body.dark-mode .detail-item textarea {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .edit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .edit-btn:hover {
+            background: var(--secondary);
+        }
+
+        .save-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background: #3aa8d8;
+        }
+
+        .cancel-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            display: none;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .cancel-btn:hover {
+            background: #d51a5f;
+        }
+
+        /* Notifications Section */
+        .notification-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background 0.3s;
+        }
+
+        body.dark-mode .notification-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-item:hover {
+            background: var(--light-gray);
+        }
+
+        body.dark-mode .notification-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-item.unread {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        body.dark-mode .notification-item.unread {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        .notification-icon {
+            font-size: 20px;
+            color: var(--primary);
+            margin-right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .notification-content p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .notification-time {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .notification-actions {
+            margin-left: 15px;
+        }
+
+        .notification-actions a {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Settings Section */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        body.dark-mode .setting-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Payment Methods */
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .payment-method {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method.active {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        body.dark-mode .payment-method.active {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        .payment-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .payment-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .payment-actions {
+            margin-left: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--light-gray);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-white:hover {
+            background: var(--light-gray);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+            position: relative;
+            z-index: 10;
+            margin-top: 50px;
+        }
+
+        body.dark-mode .footer {
+            background: #111;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        body.dark-mode .modal-content {
+            background: var(--dark-card);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+        }
+
+        .modal-btn-confirm {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .modal-btn-cancel {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        body.dark-mode .modal-btn-cancel {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--dark-text);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-hero h1 {
+                font-size: 24px;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-bar input {
+                padding: 15px;
+            }
+            
+            .search-bar button {
+                padding: 15px;
+                width: 100%;
+            }
+            
+            .booking-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .booking-actions {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .dashboard-hero {
+                padding: 30px 20px;
+            }
+            
+            .card {
+                padding: 20px 15px;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="Home Genie Logo">
+                    <h1>Home Genie</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="professionals.html">Professionals</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+        <div class="container" style="display: flex; gap: 30px;">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title">Dashboard</h3>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="active" data-section="dashboard-section"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#" data-section="bookings-section"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+                    <li><a href="#" data-section="notifications-section"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#" data-section="profile-section"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" data-section="settings-section"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#" data-section="payments-section"><i class="fas fa-credit-card"></i> Payments</a></li>
+                    <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
+            
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <section class="content-section active" id="dashboard-section">
+                    <!-- Hero Banner -->
+                    <div class="dashboard-hero">
+                        <h1>Welcome back, Alex!</h1>
+                        <p>Ready to book your next service? Our professionals are standing by to help with all your home needs.</p>
+                        <a href="services.html" class="btn btn-primary">Book a Service Now</a>
+                        <img src="https://servizio.com/images/pattern.svg" alt="Pattern" class="hero-pattern">
+                    </div>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <input type="text" placeholder="What service do you need? (e.g. Electrician, Plumber)">
+                        <input type="text" placeholder="Your location">
+                        <button type="submit"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    
+                    <!-- Real-Time Availability -->
+                    <div class="card">
+                        <div class="availability-card">
+                            <div class="availability-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="availability-text">
+                                <h3>Next Available Electrician</h3>
+                                <p>30 minutes from now - John D. (4.9 ★)</p>
+                            </div>
+                        </div>
+                        <div class="availability-card">
+                            <div class="availability-icon">
+                                <i class="fas fa-faucet"></i>
+                            </div>
+                            <div class="availability-text">
+                                <h3>Next Available Plumber</h3>
+                                <p>1 hour from now - Sarah M. (4.8 ★)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Referral Program -->
+                    <div class="referral-card">
+                        <h3>Invite Friends & Earn Credits</h3>
+                        <p>Get $20 in service credits for every friend who signs up and books a service.</p>
+                        <div class="referral-code">
+                            <span>SERV20</span>
+                            <button>COPY</button>
+                        </div>
+                        <div class="referral-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Bookings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Upcoming Bookings</h2>
+                            <a href="#" data-section="bookings-section">View All</a>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Electrical Wiring Repair</h3>
+                                <p>Today, 2:00 PM - 4:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Kitchen Deep Cleaning</h3>
+                                <p>Tomorrow, 10:00 AM - 12:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Plumbing Inspection</h3>
+                                <p>Friday, 9:00 AM - 11:00 AM</p>
+                                <span class="booking-status status-pending">Pending Confirmation</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Bookings Section -->
+                <section class="content-section" id="bookings-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Upcoming Bookings</h2>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Electrical Wiring Repair</h3>
+                                <p>Today, 2:00 PM - 4:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Kitchen Deep Cleaning</h3>
+                                <p>Tomorrow, 10:00 AM - 12:00 PM</p>
+                                <span class="booking-status status-confirmed">Confirmed</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Plumbing Inspection</h3>
+                                <p>Friday, 9:00 AM - 11:00 AM</p>
+                                <span class="booking-status status-pending">Pending Confirmation</span>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="modify-booking"><i class="fas fa-edit"></i> Modify</a>
+                                <a href="#" class="cancel-booking"><i class="fas fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Booking History -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Booking History</h2>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>AC Maintenance Service</h3>
+                                <p>June 15, 2023 - Completed</p>
+                                <p>Rating: ★★★★★ (5.0)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Carpet Cleaning</h3>
+                                <p>May 28, 2023 - Completed</p>
+                                <p>Rating: ★★★★☆ (4.5)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Appliance Repair</h3>
+                                <p>April 10, 2023 - Completed</p>
+                                <p>Rating: ★★★★★ (5.0)</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="rebook-service"><i class="fas fa-redo"></i> Re-book</a>
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Notifications Section -->
+                <section class="content-section" id="notifications-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Notifications</h2>
+                            <a href="#" id="mark-all-read">Mark All as Read</a>
+                        </div>
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Booking Confirmed</h4>
+                                <p>Your electrical wiring repair service has been confirmed for today at 2:00 PM.</p>
+                                <div class="notification-time">10 minutes ago</div>
+                            </div>
+                            <div class="notification-actions">
+                                <a href="#"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Professional Assigned</h4>
+                                <p>John D. has been assigned to your plumbing inspection service.</p>
+                                <div class="notification-time">2 hours ago</div>
+                            </div>
+                            <div class="notification-actions">
+                                <a href="#"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Rate Your Service</h4>
+                                <p>How was your recent AC maintenance service? Rate your experience.</p>
+                                <div class="notification-time">1 day ago</div>
+                            </div>
+                            <div class="notification-actions">
+                                <a href="#"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Special Offer</h4>
+                                <p>Get 20% off your next cleaning service. Use code CLEAN20 at checkout.</p>
+                                <div class="notification-time">3 days ago</div>
+                            </div>
+                            <div class="notification-actions">
+                                <a href="#"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Profile Section -->
+                <section class="content-section" id="profile-section">
+                    <div class="card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                                <div class="profile-avatar-upload">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <h2>Alex Johnson</h2>
+                                <p>Member since June 2022</p>
+                                <div class="profile-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    (4.7 from 12 reviews)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <div class="detail-card">
+                                <h3>Personal Information</h3>
+                                <div class="detail-item">
+                                    <label>Full Name</label>
+                                    <p>Alex Johnson</p>
+                                    <input type="text" value="Alex Johnson" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Email</label>
+                                    <p>alex.johnson@example.com</p>
+                                    <input type="email" value="alex.johnson@example.com" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Phone</label>
+                                    <p>(555) 123-4567</p>
+                                    <input type="tel" value="(555) 123-4567" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-personal-btn">Edit Information</button>
+                                <button class="save-btn" id="save-personal-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-personal-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Address</h3>
+                                <div class="detail-item">
+                                    <label>Street</label>
+                                    <p>123 Main Street</p>
+                                    <input type="text" value="123 Main Street" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>City</label>
+                                    <p>New York</p>
+                                    <input type="text" value="New York" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>ZIP Code</label>
+                                    <p>10001</p>
+                                    <input type="text" value="10001" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-address-btn">Edit Address</button>
+                                <button class="save-btn" id="save-address-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-address-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Account Security</h3>
+                                <div class="detail-item">
+                                    <label>Password</label>
+                                    <p>••••••••••</p>
+                                    <input type="password" placeholder="Enter new password" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>Two-Factor Authentication</label>
+                                    <p>Disabled</p>
+                                    <select style="display: none;">
+                                        <option>Disabled</option>
+                                        <option>Enabled</option>
+                                    </select>
+                                </div>
+                                <button class="edit-btn" id="edit-security-btn">Change Password</button>
+                                <button class="save-btn" id="save-security-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-security-btn">Cancel</button>
+                            </div>
+                            
+                            <div class="detail-card">
+                                <h3>Payment Methods</h3>
+                                <div class="detail-item">
+                                    <label>Credit Card</label>
+                                    <p>VISA •••• •••• •••• 4242</p>
+                                    <input type="text" value="VISA •••• •••• •••• 4242" style="display: none;">
+                                </div>
+                                <div class="detail-item">
+                                    <label>PayPal</label>
+                                    <p>alex.johnson@example.com</p>
+                                    <input type="email" value="alex.johnson@example.com" style="display: none;">
+                                </div>
+                                <button class="edit-btn" id="edit-payment-btn">Manage Payments</button>
+                                <button class="save-btn" id="save-payment-btn">Save Changes</button>
+                                <button class="cancel-btn" id="cancel-payment-btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Settings Section -->
+                <section class="content-section" id="settings-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Account Settings</h2>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Email Notifications</h3>
+                                <p>Receive email notifications for bookings and promotions</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>SMS Notifications</h3>
+                                <p>Receive text messages for important updates</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Push Notifications</h3>
+                                <p>Get alerts on your mobile device</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Dark Mode</h3>
+                                <p>Switch to dark theme</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="dark-mode-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Privacy Settings</h2>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Show Profile to Professionals</h3>
+                                <p>Allow professionals to view your profile information</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Show Ratings Publicly</h3>
+                                <p>Display your service ratings on your public profile</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Payments Section -->
+                <section class="content-section" id="payments-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Payment Methods</h2>
+                            <a href="#" id="add-payment-method">+ Add New</a>
+                        </div>
+                        <div class="payment-method active">
+                            <div class="payment-icon">
+                                <i class="fab fa-cc-visa"></i>
+                            </div>
+                            <div class="payment-info">
+                                <h4>VISA ending in 4242</h4>
+                                <p>Expires 05/25</p>
+                            </div>
+                            <div class="payment-actions">
+                                <a href="#"><i class="fas fa-edit"></i></a>
+                                <a href="#"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="payment-icon">
+                                <i class="fab fa-paypal"></i>
+                            </div>
+                            <div class="payment-info">
+                                <h4>PayPal</h4>
+                                <p>alex.johnson@example.com</p>
+                            </div>
+                            <div class="payment-actions">
+                                <a href="#"><i class="fas fa-edit"></i></a>
+                                <a href="#"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Billing History</h2>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>AC Maintenance Service</h3>
+                                <p>June 15, 2023</p>
+                                <p class="text-success">$89.00</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Carpet Cleaning</h3>
+                                <p>May 28, 2023</p>
+                                <p class="text-success">$120.00</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h3>Appliance Repair</h3>
+                                <p>April 10, 2023</p>
+                                <p class="text-success">$75.00</p>
+                            </div>
+                            <div class="booking-actions">
+                                <a href="#" class="view-receipt"><i class="fas fa-file-alt"></i> Receipt</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Modal -->
+    <div class="modal" id="logout-modal">
+        <div class="modal-content">
+            <h2>Are you sure you want to logout?</h2>
+            <p>You'll need to sign in again to access your dashboard.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancel-logout">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirm-logout">Yes, Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Booking Cancellation Modal -->
+    <div class="modal" id="cancel-booking-modal">
+        <div class="modal-content">
+            <h2>Cancel Booking</h2>
+            <p>Are you sure you want to cancel this booking? A cancellation fee may apply.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancel-cancel-booking">Don't Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirm-cancel-booking">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Payment Method Modal -->
+    <div class="modal" id="add-payment-modal">
+        <div class="modal-content">
+            <h2>Add Payment Method</h2>
+            <form id="payment-form">
+                <div class="detail-item" style="margin-bottom: 15px;">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="detail-item" style="margin-bottom: 15px;">
+                    <label>Cardholder Name</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div class="detail-item" style="flex: 1;">
+                        <label>Expiration Date</label>
+                        <input type="text" placeholder="MM/YY" required>
+                    </div>
+                    <div class="detail-item" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="text" placeholder="123" required>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn modal-btn-cancel" id="cancel-add-payment">Cancel</button>
+                    <button type="submit" class="modal-btn modal-btn-confirm">Add Payment Method</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <img src="logo.png" alt="Home Genie Logo">
+                        <h1>Home Genie</h1>
+                    </div>
+                    <p>Your trusted partner for all home services. Quality professionals at your doorstep.</p>
+                    <div class="footer-social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="professionals.html">Professionals</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Laundry</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> vignan university</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> homegenie@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Home Genie All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x4361ee,
+            backgroundColor: 0xf8f9fa,
+            points: 10.00,
+            maxDistance: 22.00,
+            spacing: 18.00
+        });
+        
+        // Copy referral code functionality
+        document.querySelector('.referral-code button').addEventListener('click', function() {
+            const code = document.querySelector('.referral-code span').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = this.textContent;
+                this.textContent = 'COPIED!';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutModal = document.getElementById('logout-modal');
+        const cancelLogout = document.getElementById('cancel-logout');
+        const confirmLogout = document.getElementById('confirm-logout');
+        
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutModal.style.display = 'flex';
+        });
+        
+        cancelLogout.addEventListener('click', function() {
+            logoutModal.style.display = 'none';
+        });
+        
+        confirmLogout.addEventListener('click', function() {
+            // In a real app, you would log the user out via API call
+            // Then redirect to the login page
+            window.location.href = 'welcome.html';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === logoutModal || 
+                e.target === document.getElementById('cancel-booking-modal') || 
+                e.target === document.getElementById('add-payment-modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Sidebar navigation functionality
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.id === 'logout-btn') return;
+                
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.sidebar-nav a').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all content sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show the selected content section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Scroll to top of the section
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Profile edit functionality
+        function setupEditSaveCancel(editBtnId, saveBtnId, cancelBtnId, cardSelector) {
+            const editBtn = document.getElementById(editBtnId);
+            const saveBtn = document.getElementById(saveBtnId);
+            const cancelBtn = document.getElementById(cancelBtnId);
+            const card = document.querySelector(cardSelector);
+            
+            if (!editBtn || !saveBtn || !cancelBtn || !card) return;
+            
+            editBtn.addEventListener('click', function() {
+                const inputs = card.querySelectorAll('input, select');
+                const paragraphs = card.querySelectorAll('p');
+                
+                // Hide paragraphs and show inputs
+                paragraphs.forEach(p => p.style.display = 'none');
+                inputs.forEach(input => {
+                    input.style.display = 'block';
+                    if (input.type === 'password') {
+                        input.value = ''; // Clear password field when editing
+                    }
+                });
+                
+                // Show save and cancel buttons, hide edit button
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+                cancelBtn.style.display = 'inline-block';
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                const inputs = card.querySelectorAll('input, select');
+                const paragraphs = card.querySelectorAll('p');
+                
+                // Update paragraph values with input values
+                inputs.forEach((input, index) => {
+                    if (input.type !== 'password' || input.value) {
+                        paragraphs[index].textContent = input.value || paragraphs[index].textContent;
+                    }
+                });
+                
+                // Hide inputs and show paragraphs
+                inputs.forEach(input => input.style.display = 'none');
+                paragraphs.forEach(p => p.style.display = 'block');
+                
+                // Show edit button, hide save and cancel buttons
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+                
+                // Show success message
+                showToast('Changes saved successfully!');
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                const inputs = card.querySelectorAll('input, select');
+                const paragraphs = card.querySelectorAll('p');
+                
+                // Hide inputs and show paragraphs
+                inputs.forEach(input => input.style.display = 'none');
+                paragraphs.forEach(p => p.style.display = 'block');
+                
+                // Show edit button, hide save and cancel buttons
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+            });
+        }
+
+        // Initialize edit/save/cancel for all profile sections
+        setupEditSaveCancel('edit-personal-btn', 'save-personal-btn', 'cancel-personal-btn', '#profile-section .detail-card:nth-child(1)');
+        setupEditSaveCancel('edit-address-btn', 'save-address-btn', 'cancel-address-btn', '#profile-section .detail-card:nth-child(2)');
+        setupEditSaveCancel('edit-security-btn', 'save-security-btn', 'cancel-security-btn', '#profile-section .detail-card:nth-child(3)');
+        setupEditSaveCancel('edit-payment-btn', 'save-payment-btn', 'cancel-payment-btn', '#profile-section .detail-card:nth-child(4)');
+
+        // Booking cancellation functionality
+        document.querySelectorAll('.cancel-booking').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Store which booking is being cancelled
+                const bookingItem = this.closest('.booking-item');
+                sessionStorage.setItem('cancellingBooking', bookingItem.querySelector('h3').textContent);
+                document.getElementById('cancel-booking-modal').style.display = 'flex';
+            });
+        });
+
+        document.getElementById('confirm-cancel-booking').addEventListener('click', function() {
+            const bookingTitle = sessionStorage.getItem('cancellingBooking');
+            if (bookingTitle) {
+                // In a real app, you would send a request to cancel the booking
+                showToast(`Booking for "${bookingTitle}" cancelled successfully!`);
+                
+                // Remove the booking from the UI
+                document.querySelectorAll('.booking-item').forEach(item => {
+                    if (item.querySelector('h3').textContent === bookingTitle) {
+                        item.remove();
+                    }
+                });
+                
+                sessionStorage.removeItem('cancellingBooking');
+            }
+            document.getElementById('cancel-booking-modal').style.display = 'none';
+        });
+
+        document.getElementById('cancel-cancel-booking').addEventListener('click', function() {
+            sessionStorage.removeItem('cancellingBooking');
+            document.getElementById('cancel-booking-modal').style.display = 'none';
+        });
+
+        // Booking modification functionality
+        document.querySelectorAll('.modify-booking').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const bookingTitle = this.closest('.booking-item').querySelector('h3').textContent;
+                showToast(`Redirecting to modify booking: ${bookingTitle}`);
+                // In a real app, you would redirect to a booking modification page
+            });
+        });
+
+        // Rebook service functionality
+        document.querySelectorAll('.rebook-service').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const serviceName = this.closest('.booking-item').querySelector('h3').textContent;
+                showToast(`Redirecting to rebook service: ${serviceName}`);
+                // In a real app, you would redirect to the service booking page
+            });
+        });
+
+        // View receipt functionality
+        document.querySelectorAll('.view-receipt').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const serviceName = this.closest('.booking-item').querySelector('h3').textContent;
+                showToast(`Opening receipt for: ${serviceName}`);
+                // In a real app, you would open a receipt PDF or redirect to a receipt page
+            });
+        });
+
+        // Mark all notifications as read
+        document.getElementById('mark-all-read').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.notification-item.unread').forEach(item => {
+                item.classList.remove('unread');
+            });
+            showToast('All notifications marked as read');
+        });
+
+        // Delete notification
+        document.querySelectorAll('.notification-actions a').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.closest('.notification-item').remove();
+                showToast('Notification deleted');
+            });
+        });
+
+        // Add payment method
+        document.getElementById('add-payment-method').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('add-payment-modal').style.display = 'flex';
+        });
+
+        document.getElementById('cancel-add-payment').addEventListener('click', function() {
+            document.getElementById('add-payment-modal').style.display = 'none';
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cardNumber = this.querySelector('input[type="text"]').value;
+            const lastFour = cardNumber.slice(-4);
+            
+            // Create new payment method in the UI
+            const paymentMethodsContainer = document.querySelector('#payments-section .card:first-child');
+            const newPaymentMethod = document.createElement('div');
+            newPaymentMethod.className = 'payment-method';
+            newPaymentMethod.innerHTML = `
+                <div class="payment-icon">
+                    <i class="fab fa-cc-visa"></i>
+                </div>
+                <div class="payment-info">
+                    <h4>VISA ending in ${lastFour}</h4>
+                    <p>Added just now</p>
+                </div>
+                <div class="payment-actions">
+                    <a href="#"><i class="fas fa-edit"></i></a>
+                    <a href="#"><i class="fas fa-trash"></i></a>
+                </div>
+            `;
+            
+            // Add delete functionality to the new payment method
+            newPaymentMethod.querySelector('.fa-trash').closest('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to remove this payment method?')) {
+                    newPaymentMethod.remove();
+                    showToast('Payment method removed');
+                }
+            });
+            
+            paymentMethodsContainer.appendChild(newPaymentMethod);
+            document.getElementById('add-payment-modal').style.display = 'none';
+            this.reset();
+            showToast('Payment method added successfully!');
+        });
+
+        // Delete payment method
+        document.querySelectorAll('.payment-actions .fa-trash').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to remove this payment method?')) {
+                    this.closest('.payment-method').remove();
+                    showToast('Payment method removed');
+                }
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                    showToast('Dark mode enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                    showToast('Dark mode disabled');
+                }
+            });
+
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                darkModeToggle.checked = true;
+                document.body.classList.add('dark-mode');
+            }
+        }
+
+        // Avatar upload functionality
+        document.querySelector('.profile-avatar-upload').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                        showToast('Image size should be less than 2MB', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = event => {
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        document.querySelector('.profile-avatar').innerHTML = '';
+                        document.querySelector('.profile-avatar').appendChild(img);
+                        document.querySelector('.profile-avatar').appendChild(this);
+                        showToast('Profile picture updated');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Add toast notification styles
+        const toastStyles = document.createElement('style');
+        toastStyles.textContent = `
+            .toast-notification {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 12px 24px;
+                border-radius: 4px;
+                color: white;
+                font-size: 14px;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+                max-width: 90%;
+                text-align: center;
+            }
+            
+            .toast-notification.show {
+                opacity: 1;
+            }
+            
+            .toast-notification.success {
+                background-color: #4caf50;
+            }
+            
+            .toast-notification.error {
+                background-color: #f44336;
+            }
+        `;
+        document.head.appendChild(toastStyles);
+
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar');
+        if (searchBar) {
+            searchBar.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const serviceInput = this.querySelector('input[type="text"]');
+                const locationInput = this.querySelectorAll('input[type="text"]')[1];
+                
+                if (serviceInput.value.trim() && locationInput.value.trim()) {
+                    showToast(`Searching for ${serviceInput.value} in ${locationInput.value}`);
+                    // In a real app, you would redirect to search results or fetch results
+                } else {
+                    showToast('Please enter both service and location', 'error');
+                }
+            });
+            
+            // Make the search bar button work
+            searchBar.querySelector('button').addEventListener('click', function() {
+                searchBar.dispatchEvent(new Event('submit'));
+            });
+            
+            // Allow pressing Enter in either input to submit
+            searchBar.querySelectorAll('input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchBar.dispatchEvent(new Event('submit'));
+                    }
+                });
+            });
+        }
+
+        // Initialize tooltips
+        function initTooltips() {
+            const elementsWithTooltips = document.querySelectorAll('[data-tooltip]');
+            
+            elementsWithTooltips.forEach(element => {
+                const tooltipText = element.getAttribute('data-tooltip');
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = tooltipText;
+                
+                element.appendChild(tooltip);
+                
+                element.addEventListener('mouseenter', () => {
+                    tooltip.style.visibility = 'visible';
+                    tooltip.style.opacity = '1';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    tooltip.style.visibility = 'hidden';
+                    tooltip.style.opacity = '0';
+                });
+            });
+        }
+
+        // Add tooltip styles
+        const tooltipStyles = document.createElement('style');
+        tooltipStyles.textContent = `
+            .tooltip {
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #333;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                white-space: nowrap;
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 100;
+                margin-bottom: 5px;
+            }
+            
+            .tooltip:after {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #333 transparent transparent transparent;
+            }
+            
+            [data-tooltip] {
+                position: relative;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(tooltipStyles);
+        
+        // Initialize tooltips after DOM is loaded
+        document.addEventListener('DOMContentLoaded', initTooltips);
+
+        // Simulate loading data for dashboard
+        function simulateDataLoading() {
+            // This would be API calls in a real app
+            setTimeout(() => {
+                // Update availability cards with "live" data
+                const availabilityCards = document.querySelectorAll('.availability-card');
+                if (availabilityCards.length > 0) {
+                    availabilityCards[0].querySelector('p').textContent = '15 minutes from now - John D. (4.9 ★)';
+                    availabilityCards[1].querySelector('p').textContent = '45 minutes from now - Sarah M. (4.8 ★)';
+                }
+                
+                // Simulate notification count
+                const unreadNotifications = document.querySelectorAll('.notification-item.unread').length;
+                if (unreadNotifications > 0) {
+                    const bellIcon = document.querySelector('.sidebar-nav a[data-section="notifications-section"] i');
+                    if (bellIcon) {
+                        const notificationBadge = document.createElement('span');
+                        notificationBadge.className = 'notification-badge';
+                        notificationBadge.textContent = unreadNotifications;
+                        bellIcon.parentNode.appendChild(notificationBadge);
+                    }
+                }
+            }, 1000);
+        }
+
+        // Add notification badge styles
+        const badgeStyles = document.createElement('style');
+        badgeStyles.textContent = `
+            .notification-badge {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background-color: var(--warning);
+                color: white;
+                border-radius: 50%;
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                font-weight: bold;
+            }
+            
+            .sidebar-nav a {
+                position: relative;
+            }
+        `;
+        document.head.appendChild(badgeStyles);
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            simulateDataLoading();
+            
+            // Set current date in dashboard
+            const currentDate = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateElements = document.querySelectorAll('.current-date');
+            dateElements.forEach(el => {
+                el.textContent = currentDate.toLocaleDateString('en-US', options);
+            });
+            
+            // Add click handler for all card header "View All" links
+            document.querySelectorAll('.card-header a').forEach(link => {
+                if (link.getAttribute('data-section')) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const section = this.getAttribute('data-section');
+                        document.querySelector(`.sidebar-nav a[data-section="${section}"]`).click();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

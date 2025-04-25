@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Genie - Products</title>
+    <link rel="stylesheet" href="../css/products.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+      /* Vanta.js background styles */
+      #vanta-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      
+      /* Header styles */
+      header {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 100;
+      }
+      
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      
+      .logo h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+      }
+      
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 25px;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      
+      .nav-links a:hover {
+        color: #4361ee;
+      }
+      
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      /* Main content styles */
+      main {
+        display: flex;
+        max-width: 1400px;
+        margin: 20px auto;
+        padding: 0 20px;
+        position: relative;
+      }
+      
+      .filter-section {
+        width: 250px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-right: 20px;
+        height: fit-content;
+      }
+      
+      .filter-section h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #4361ee;
+      }
+      
+      .filter-group {
+        margin-bottom: 20px;
+      }
+      
+      .filter-toggle {
+        display: none;
+      }
+      
+      .filter-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        cursor: pointer;
+        position: relative;
+        padding-left: 25px;
+      }
+      
+      .filter-label:before {
+        content: '+';
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      
+      .filter-toggle:checked ~ .filter-label:before {
+        content: '-';
+      }
+      
+      .filter-options {
+        display: none;
+        padding-left: 15px;
+      }
+      
+      .filter-toggle:checked ~ .filter-options {
+        display: block;
+      }
+      
+      .filter-options p {
+        margin: 8px 0;
+        cursor: pointer;
+      }
+      
+      .filter-options p:hover {
+        color: #4361ee;
+      }
+      
+      .product-section {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      
+      .product-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+      }
+      
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+      
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      
+      .product-details {
+        padding: 15px;
+      }
+      
+      .brand {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      
+      .price-row {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      
+      .original-price {
+        text-decoration: line-through;
+        color: #999;
+        margin-right: 10px;
+      }
+      
+      .discounted-price {
+        font-weight: 600;
+        color: #4361ee;
+      }
+      
+      .buy-now {
+        width: 100%;
+        padding: 10px;
+        background: #4361ee;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+      
+      .buy-now:hover {
+        background: #3a56d4;
+      }
+      
+      /* Responsive styles */
+      @media (max-width: 992px) {
+        main {
+          flex-direction: column;
+        }
+        
+        .filter-section {
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
+        
+        .product-section {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+        
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -250px;
+          width: 250px;
+          height: 100vh;
+          background: white;
+          flex-direction: column;
+          padding: 80px 30px;
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+          transition: right 0.3s;
+          z-index: 1000;
+        }
+        
+        .nav-links.active {
+          right: 0;
+        }
+        
+        .product-section {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+      }
+
+      /* Additional styles */
+      .active-filter {
+        color: #4361ee;
+        font-weight: 600;
+      }
+      
+      .product-name {
+        font-size: 16px;
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      
+      .product-desc {
+        font-size: 14px;
+        color: #666;
+        margin: 10px 0;
+      }
+      
+      .discount-badge {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      
+      .add-to-cart {
+        width: 100%;
+        padding: 8px;
+        background: white;
+        color: #4361ee;
+        border: 1px solid #4361ee;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+        margin-top: 8px;
+      }
+      
+      .add-to-cart:hover {
+        background: #f0f4ff;
+      }
+      
+      /* Sidebar Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="vanta-bg"></div>
+    
+    <!-- Navbar -->
+    <header>
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <img src="logo.png" alt="Home Genie" />
+            <h1>Home Genie</h1>
+          </div>
+          <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="nav-links" id="nav-links">
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="products.html" class="active">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="professionals.html">Professionals</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <main>
+      <aside class="filter-section">
+        <h2>Filters</h2>
+        <div class="filter-group">
+          <input type="checkbox" id="category-toggle" class="filter-toggle" checked />
+          <label for="category-toggle" class="filter-label">Category</label>
+          <div class="filter-options">
+            <p data-category="all">All Categories</p>
+            <p data-category="electronics">Electronics</p>
+            <p data-category="kitchen">Kitchen</p>
+            <p data-category="home">Home Appliances</p>
+            <p data-category="plumbing">Plumbing</p>
+            <p data-category="personal">Personal Care</p>
+            <p data-category="furniture">Furniture</p>
+            <p data-category="lighting">Lighting</p>
+          </div>
+        </div>
+        <div class="filter-group">
+          <input type="checkbox" id="price-toggle" class="filter-toggle" />
+          <label for="price-toggle" class="filter-label">Price Range</label>
+          <div class="filter-options">
+            <p data-price="all">All Prices</p>
+            <p data-price="0-500">₹0 - ₹500</p>
+            <p data-price="500-1000">₹500 - ₹1000</p>
+            <p data-price="1000-2000">₹1000 - ₹2000</p>
+            <p data-price="2000-5000">₹2000 - ₹5000</p>
+            <p data-price="5000-10000">₹5000 - ₹10000</p>
+            <p data-price="10000+">₹10000+</p>
+          </div>
+        </div>
+        <div class="filter-group">
+          <input type="checkbox" id="brands-toggle" class="filter-toggle" />
+          <label for="brands-toggle" class="filter-label">Brands</label>
+          <div class="filter-options">
+            <p data-brand="all">All Brands</p>
+            <p data-brand="samsung">Samsung</p>
+            <p data-brand="lg">LG</p>
+            <p data-brand="whirlpool">Whirlpool</p>
+            <p data-brand="voltas">Voltas</p>
+            <p data-brand="symphony">Symphony</p>
+            <p data-brand="prestige">Prestige</p>
+            <p data-brand="bajaj">Bajaj</p>
+            <p data-brand="havells">Havells</p>
+            <p data-brand="philips">Philips</p>
+          </div>
+        </div>
+      </aside>
+      
+      <section class="product-section" id="products-space"></section>
+    </main>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x4361ee,
+        backgroundColor: 0xf8f9fa,
+        points: 10.00,
+        maxDistance: 22.00,
+        spacing: 18.00
+      });
+
+      // Mobile menu toggle
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.getElementById('nav-links');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+      });
+      
+      sidebarOverlay.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      });
+
+      // Expanded product data with working image URLs
+      const products = [
+  // Electronics
+  {
+    name: "Smart TV 43\"",
+    brand: "Samsung",
+    category: "electronics",
+    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop",
+    price: 35990,
+    discountedPrice: 31999,
+    description: "4K UHD Smart TV with Crystal Processor"
+  },
+  {
+    name: "Air Conditioner",
+    brand: "LG",
+    category: "electronics",
+    image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=500&auto=format&fit=crop",
+    price: 42990,
+    discountedPrice: 38999,
+    description: "5-star inverter split AC with AI cooling"
+  },
+  {
+    name: "Washing Machine",
+    brand: "Whirlpool",
+    category: "electronics",
+    image: "WGA1420SIN3.webp",
+    price: 32990,
+    discountedPrice: 28990,
+    description: "Fully automatic front load with steam wash"
+  },
+  {
+    name: "Refrigerator",
+    brand: "Samsung",
+    category: "electronics",
+    image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=500&auto=format&fit=crop",
+    price: 28990,
+    discountedPrice: 25990,
+    description: "Double door fridge with digital inverter"
+  },
+  
+  // Kitchen Appliances
+  {
+    name: "Induction Cooktop",
+    brand: "Prestige",
+    category: "kitchen",
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e1ef?w=500&auto=format&fit=crop",
+    price: 2199,
+    discountedPrice: 1799,
+    description: "2100W induction with auto shut-off"
+  },
+  {
+    name: "Mixer Grinder",
+    brand: "Bajaj",
+    category: "kitchen",
+    image: "https://images.unsplash.com/photo-1576179635662-9d1983e97e0e?w=500&auto=format&fit=crop",
+    price: 2499,
+    discountedPrice: 2199,
+    description: "750W mixer with 3 stainless steel jars"
+  },
+  {
+    name: "Electric Kettle",
+    brand: "Havells",
+    category: "kitchen",
+    image: "https://images.unsplash.com/photo-1606755456206-b25206bfa433?w=500&auto=format&fit=crop",
+    price: 1299,
+    discountedPrice: 999,
+    description: "1.5L capacity with automatic shut-off"
+  },
+  {
+    name: "Food Processor",
+    brand: "Philips",
+    category: "kitchen",
+    image: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&auto=format&fit=crop",
+    price: 4599,
+    discountedPrice: 3999,
+    description: "750W motor with multiple attachments"
+  },
+  
+  // Home Appliances
+  {
+    name: "Air Cooler",
+    brand: "Symphony",
+    category: "home",
+    image: "https://images.unsplash.com/photo-1589984662646-e7f2c79dfa06?w=500&auto=format&fit=crop",
+    price: 12499,
+    discountedPrice: 10999,
+    description: "65L desert air cooler with 4-way swing"
+  },
+  {
+    name: "Water Purifier",
+    brand: "Kent",
+    category: "home",
+    image: "https://images.unsplash.com/photo-1567337710282-a6d0e7a2c0c9?w=500&auto=format&fit=crop",
+    price: 18999,
+    discountedPrice: 15999,
+    description: "RO+UV+UF purification with TDS control"
+  },
+  {
+    name: "Vacuum Cleaner",
+    brand: "Eureka Forbes",
+    category: "home",
+    image: "https://images.unsplash.com/photo-1593465678160-f99a8371fcf6?w=500&auto=format&fit=crop",
+    price: 8999,
+    discountedPrice: 7499,
+    description: "Bagless cyclone vacuum with HEPA filter"
+  },
+  {
+    name: "Iron",
+    brand: "Philips",
+    category: "home",
+    image: "https://images.unsplash.com/photo-1595341595379-cf0f0f02e8a5?w=500&auto=format&fit=crop",
+    price: 1499,
+    discountedPrice: 1299,
+    description: "1440W steam iron with anti-calc function"
+  },
+  
+  // Plumbing
+  {
+    name: "Faucet",
+    brand: "Jaquar",
+    category: "plumbing",
+    image: "https://images.unsplash.com/photo-1611591437281-4608be122683?w=500&auto=format&fit=crop",
+    price: 2499,
+    discountedPrice: 2199,
+    description: "Wall mounted single lever faucet"
+  },
+  {
+    name: "Shower Panel",
+    brand: "Hindware",
+    category: "plumbing",
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=500&auto=format&fit=crop",
+    price: 15999,
+    discountedPrice: 13999,
+    description: "Multi-function shower panel with hand shower"
+  },
+  {
+    name: "PVC Pipes",
+    brand: "Finolex",
+    category: "plumbing",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop",
+    price: 899,
+    discountedPrice: 799,
+    description: "3/4 inch pressure pipes (10m length)"
+  },
+  {
+    name: "Water Tank",
+    brand: "Sintex",
+    category: "plumbing",
+    image: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=500&auto=format&fit=crop",
+    price: 4599,
+    discountedPrice: 3999,
+    description: "1000L capacity overhead water tank"
+  },
+  
+  // Personal Care
+  {
+    name: "Hair Dryer",
+    brand: "Philips",
+    category: "personal",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop",
+    price: 1299,
+    discountedPrice: 999,
+    description: "1800W ionic hair dryer with concentrator"
+  },
+  {
+    name: "Trimmer",
+    brand: "Nova",
+    category: "personal",
+    image: "https://images.unsplash.com/photo-1595341595379-cf0f0f02e8a5?w=500&auto=format&fit=crop",
+    price: 1599,
+    discountedPrice: 1299,
+    description: "Cordless trimmer with 10 length settings"
+  },
+  {
+    name: "Electric Toothbrush",
+    brand: "Oral-B",
+    category: "personal",
+    image: "https://images.unsplash.com/photo-1589984662646-e7f2c79dfa06?w=500&auto=format&fit=crop",
+    price: 2499,
+    discountedPrice: 1999,
+    description: "Rechargeable toothbrush with pressure sensor"
+  },
+  {
+    name: "Weighing Scale",
+    brand: "Dr Trust",
+    category: "personal",
+    image: "https://images.unsplash.com/photo-1576435728678-68d368a5d1bd?w=500&auto=format&fit=crop",
+    price: 999,
+    discountedPrice: 799,
+    description: "Digital body weight scale with BMI calculator"
+  },
+  
+  // Furniture
+  {
+    name: "Study Table",
+    brand: "HomeTown",
+    category: "furniture",
+    image: "https://images.unsplash.com/photo-1556909114-44e1d2b30683?w=500&auto=format&fit=crop",
+    price: 5999,
+    discountedPrice: 4999,
+    description: "Engineered wood study table with drawer"
+  },
+  {
+    name: "Plastic Chair",
+    brand: "Nilkamal",
+    category: "furniture",
+    image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&auto=format&fit=crop",
+    price: 899,
+    discountedPrice: 699,
+    description: "Stackable plastic chair (set of 2)"
+  },
+  {
+    name: "Bookshelf",
+    brand: "Durian",
+    category: "furniture",
+    image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop",
+    price: 4599,
+    discountedPrice: 3999,
+    description: "5-tier wooden bookshelf with cabinet"
+  },
+  {
+    name: "Dining Table Set",
+    brand: "Woodsworth",
+    category: "furniture",
+    image: "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=500&auto=format&fit=crop",
+    price: 18999,
+    discountedPrice: 15999,
+    description: "6 seater dining table with chairs"
+  },
+  
+  // Lighting
+  {
+    name: "LED Bulb",
+    brand: "Havells",
+    category: "lighting",
+    image: "https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?w=500&auto=format&fit=crop",
+    price: 199,
+    discountedPrice: 149,
+    description: "9W LED bulb (warm white, pack of 4)"
+  },
+  {
+    name: "Ceiling Light",
+    brand: "Philips",
+    category: "lighting",
+    image: "https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?w=500&auto=format&fit=crop",
+    price: 2499,
+    discountedPrice: 1999,
+    description: "24W LED panel light with remote control"
+  },
+  {
+    name: "Table Lamp",
+    brand: "Wipro",
+    category: "lighting",
+    image: "https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?w=500&auto=format&fit=crop",
+    price: 899,
+    discountedPrice: 699,
+    description: "Touch controlled LED table lamp"
+  },
+  {
+    name: "Emergency Light",
+    brand: "Anchor",
+    category: "lighting",
+    image: "https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?w=500&auto=format&fit=crop",
+    price: 1299,
+    discountedPrice: 999,
+    description: "5W LED with 6hr backup power"
+  }
+];
+      // DOM elements
+      const productSection = document.getElementById("products-space");
+      const categoryFilters = document.querySelectorAll('[data-category]');
+      const priceFilters = document.querySelectorAll('[data-price]');
+      const brandFilters = document.querySelectorAll('[data-brand]');
+      
+      // Current filters
+      let currentFilters = {
+        category: 'all',
+        price: 'all',
+        brand: 'all'
+      };
+      
+      // Initialize the page
+      document.addEventListener('DOMContentLoaded', () => {
+        renderProducts(products);
+        setupFilterEvents();
+      });
+      
+      // Render products based on current filters
+      function renderProducts(productsToRender) {
+        productSection.innerHTML = '';
+        
+        productsToRender.forEach(product => {
+          if (matchesFilters(product)) {
+            const card = document.createElement("div");
+            card.classList.add("product-card");
+            
+            // Calculate discount percentage
+            const discountPercent = Math.round(((product.price - product.discountedPrice) / product.price) * 100);
+            
+            card.innerHTML = `
+              <img src="${product.image}" alt="${product.name}" class="product-image">
+              <div class="product-details">
+                <h3 class="product-name">${product.name}</h3>
+                <div class="brand">${product.brand}</div>
+                <div class="price-row">
+                  <div class="original-price">₹${product.price}</div>
+                  <div class="discounted-price">₹${product.discountedPrice}</div>
+                  <div class="discount-badge">${discountPercent}% off</div>
+                </div>
+                <p class="product-desc">${product.description}</p>
+                <button class="buy-now">Buy Now</button>
+                <button class="add-to-cart">Add to Cart</button>
+              </div>
+            `;
+            
+            productSection.appendChild(card);
+          }
+        });
+      }
+      
+      // Check if product matches current filters
+      function matchesFilters(product) {
+        // Category filter
+        if (currentFilters.category !== 'all' && product.category !== currentFilters.category) {
+          return false;
+        }
+        
+        // Price filter
+        if (currentFilters.price !== 'all') {
+          const [min, max] = currentFilters.price.split('-');
+          if (max === '+') {
+            if (product.discountedPrice < parseInt(min)) return false;
+          } else {
+            if (product.discountedPrice < parseInt(min) || product.discountedPrice > parseInt(max)) return false;
+          }
+        }
+        
+        // Brand filter
+        if (currentFilters.brand !== 'all' && product.brand.toLowerCase() !== currentFilters.brand) {
+          return false;
+        }
+        
+        return true;
+      }
+      
+      // Set up filter event listeners
+      function setupFilterEvents() {
+        // Category filters
+        categoryFilters.forEach(filter => {
+          filter.addEventListener('click', () => {
+            currentFilters.category = filter.dataset.category;
+            renderProducts(products);
+            updateActiveFilter('category', filter);
+          });
+        });
+        
+        // Price filters
+        priceFilters.forEach(filter => {
+          filter.addEventListener('click', () => {
+            currentFilters.price = filter.dataset.price;
+            renderProducts(products);
+            updateActiveFilter('price', filter);
+          });
+        });
+        
+        // Brand filters
+        brandFilters.forEach(filter => {
+          filter.addEventListener('click', () => {
+            currentFilters.brand = filter.dataset.brand;
+            renderProducts(products);
+            updateActiveFilter('brand', filter);
+          });
+        });
+      }
+      
+      // Update active filter styling
+      function updateActiveFilter(type, selectedFilter) {
+        // Remove active class from all filters of this type
+        document.querySelectorAll(`[data-${type}]`).forEach(filter => {
+          filter.classList.remove('active-filter');
+        });
+         
+        // Add active class to selected filter
+        selectedFilter.classList.add('active-filter');
+      }
+    </script>
+  </body>
+</html>

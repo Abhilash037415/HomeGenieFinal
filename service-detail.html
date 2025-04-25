@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servizio - Service Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+       :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 0 30px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .breadcrumb li {
+            margin-right: 10px;
+        }
+
+        .breadcrumb li:after {
+            content: '/';
+            margin-left: 10px;
+        }
+
+        .breadcrumb li:last-child:after {
+            content: '';
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Service Detail Layout */
+        .service-detail {
+            padding: 50px 0;
+        }
+
+        .service-content {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .service-main {
+            flex: 1;
+        }
+
+        .service-sidebar {
+            width: 350px;
+            flex-shrink: 0;
+        }
+
+        /* Service Gallery */
+        .service-gallery {
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-image {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .image-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--warning);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            background: white;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 60px;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--primary);
+        }
+
+        /* Service Info */
+        .service-info {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .service-title h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .service-category {
+            display: inline-block;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .service-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .service-description {
+            margin-bottom: 25px;
+            color: var(--gray);
+        }
+
+        .service-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-right: 5px;
+        }
+
+        .review-count {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .availability {
+            display: flex;
+            align-items: center;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .availability i {
+            margin-right: 5px;
+        }
+
+        /* Pricing & Inclusions */
+        .pricing-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .inclusions-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .inclusions-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .inclusions-list li:last-child {
+            border-bottom: none;
+        }
+
+        .inclusion-name {
+            display: flex;
+            align-items: center;
+        }
+
+        .inclusion-name i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .total-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-top: 1px solid var(--light-gray);
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .average-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .average-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .review-filter {
+            display: flex;
+            align-items: center;
+        }
+
+        .review-filter select {
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .review-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: var(--gray);
+            font-size: 13px;
+            margin-left: 10px;
+        }
+
+        .review-content {
+            color: var(--gray);
+        }
+
+        .view-all-reviews {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-slot.unavailable {
+            background: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* Similar Services */
+        .similar-services {
+            padding: 50px 0;
+            background: var(--light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--warning);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .service-info {
+            padding: 20px;
+        }
+
+        .service-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .service-subcategory {
+            display: inline-block;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .service-info p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .rating {
+            color: #ffc107;
+            display: flex;
+            align-items: center;
+        }
+
+        .rating-count {
+            color: var(--gray);
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .book-now {
+            margin-top: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* Chatbot */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+        }
+
+        .chatbot-tooltip {
+            position: absolute;
+            right: 70px;
+            background: white;
+            color: var(--dark);
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .chatbot-icon:hover .chatbot-tooltip {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .service-content {
+                flex-direction: column;
+            }
+            
+            .service-sidebar {
+                width: 100%;
+            }
+            
+            .booking-form {
+                position: static;
+            }
+            
+            .main-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 28px;
+            }
+            
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .service-price {
+                margin-top: 10px;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .time-slots {
+                grid-template-columns: 1fr;
+            }
+            
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .review-filter {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- Navbar -->
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Home Genie Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="professionals.html">Professionals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 id="service-title-header">Service Detail</h1>
+            <ul class="breadcrumb" id="breadcrumb">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li id="current-service-name">Loading...</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Service Detail Content -->
+    <section class="service-detail">
+        <div class="container">
+            <div class="service-content">
+                <!-- Main Content -->
+                <div class="service-main">
+                    <!-- Service Gallery -->
+                    <div class="service-gallery">
+                        <div class="main-image" id="main-image">
+                            <!-- Image will be set via JS -->
+                        </div>
+                        <div class="thumbnail-container" id="thumbnail-container">
+                            <!-- Thumbnails will be added via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Service Info -->
+                    <div class="service-info">
+                        <div class="service-header">
+                            <div class="service-title">
+                                <h2 id="service-title">Loading Service...</h2>
+                                <span class="service-category" id="service-category">Category - Subcategory</span>
+                            </div>
+                            <div class="service-price" id="service-price">$0</div>
+                        </div>
+                        
+                        <div class="service-meta">
+                            <div class="rating" id="service-rating">
+                                <!-- Stars will be added via JS -->
+                            </div>
+                            <div class="availability" id="service-availability">
+                                <!-- Availability will be set via JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="service-description">
+                            <p id="service-description">Loading service description...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pricing & Inclusions -->
+                    <div class="pricing-section">
+                        <h3 class="section-title">Service Inclusions</h3>
+                        <ul class="inclusions-list" id="inclusions-list">
+                            <!-- Inclusions will be added via JS -->
+                        </ul>
+                        
+                        <div class="total-price">
+                            <span>Total Price</span>
+                            <span id="total-price">$0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Section -->
+                    <div class="reviews-section">
+                        <div class="review-header">
+                            <div class="average-rating" id="average-rating">
+                                <!-- Average rating will be set via JS -->
+                            </div>
+                            <div class="review-filter">
+                                <select id="review-sort">
+                                    <option value="newest">Newest First</option>
+                                    <option value="highest">Highest Rating</option>
+                                    <option value="lowest">Lowest Rating</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="reviews-container">
+                            <!-- Reviews will be added via JS -->
+                        </div>
+                        
+                        <div class="view-all-reviews">
+                            <a href="#" class="btn btn-outline">View All Reviews</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Booking Sidebar -->
+                <div class="service-sidebar">
+                    <div class="booking-form">
+                        <h3 class="section-title">Book This Service</h3>
+                        
+                        <form id="bookingForm">
+                            <div class="form-group">
+                                <label for="booking-date">Select Date</label>
+                                <input type="date" id="booking-date" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Select Time Slot</label>
+                                <div class="time-slots" id="time-slots">
+                                    <!-- Time slots will be added via JS -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service-duration">Service Duration</label>
+                                <select id="service-duration" required>
+                                    <!-- Options will be added via JS -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location">Service Address</label>
+                                <input type="text" id="location" placeholder="Enter your address" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="special-notes">Special Instructions</label>
+                                <textarea id="special-notes" placeholder="Any special requests or notes for the professional"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Book Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Similar Services -->
+    <section class="similar-services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Similar Services</h2>
+                <a href="services.html" class="btn btn-outline">View All</a>
+            </div>
+            
+            <div class="services-grid" id="similar-services-grid">
+                <!-- Similar services will be added via JS -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <img src="logo.png" alt="Home Genie Logo">
+                        <h1>Home Genie</h1>
+                    </div>
+                    <p>Your trusted partner for all home services. Quality professionals at your doorstep.</p>
+                    <div class="footer-social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="professionals.html">Professionals</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Laundry</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> vignan university</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> homegenie@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Home Genie All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    
+    <!-- Chatbot -->
+    <div class="chatbot-icon">
+        <i class="fas fa-comment-dots"></i>
+        <div class="chatbot-tooltip">Need help finding a service?</div>
+    </div>
+    
+    <script>
+        // Service data (same as in your all services page)
+        const services = [
+            {
+                id: 1,
+                title: "Deep Home Cleaning",
+                category: "cleaning",
+                subcategory: "Residential",
+                description: "Thorough cleaning of your entire home including kitchen, bathrooms, and living areas. Our professional cleaners use eco-friendly products and pay attention to every detail, ensuring your home is not just clean but sanitized.",
+                price: 120,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                ],
+                inclusions: [
+                    { name: "Whole house cleaning (up to 2000 sq ft)", price: 120 },
+                    { name: "Kitchen deep clean (appliances, cabinets, counters)", price: 0 },
+                    { name: "Bathroom sanitization (tiles, fixtures, mirrors)", price: 0 },
+                    { name: "Dusting and vacuuming all surfaces", price: 0 },
+                    { name: "Window cleaning (interior)", price: 0 },
+                    { name: "Eco-friendly cleaning products", price: 0 }
+                ],
+                durations: [
+                    { hours: 2, label: "Standard" },
+                    { hours: 3, label: "Deep Clean" },
+                    { hours: 4, label: "Premium" }
+                ],
+                reviews: 42,
+                featured: true,
+                reviewsList: [
+                    { 
+                        name: "John Doe", 
+                        date: "2 weeks ago", 
+                        rating: 5, 
+                        content: "The cleaning team did an amazing job! My house has never been this clean. They were punctual, professional, and thorough. Will definitely book again." 
+                    },
+                    { 
+                        name: "Alice Smith", 
+                        date: "1 month ago", 
+                        rating: 4, 
+                        content: "Very good service overall. The team was efficient and cleaned everything well. Only minor issue was they missed a spot behind the TV, but otherwise perfect." 
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Office Cleaning",
+                category: "cleaning",
+                subcategory: "Commercial",
+                description: "Professional cleaning services for your office space. We'll make sure your workspace is spotless and presentable for your employees and clients.",
+                price: 150,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                ],
+                inclusions: [
+                    { name: "Office space cleaning", price: 150 },
+                    { name: "Desk and surface sanitization", price: 0 },
+                    { name: "Vacuuming and mopping", price: 0 },
+                    { name: "Trash removal", price: 0 },
+                    { name: "Restroom cleaning", price: 0 }
+                ],
+                durations: [
+                    { hours: 2, label: "Basic" },
+                    { hours: 3, label: "Standard" },
+                    { hours: 5, label: "Premium" }
+                ],
+                reviews: 27,
+                featured: false,
+                reviewsList: [
+                    { 
+                        name: "Robert Johnson", 
+                        date: "3 weeks ago", 
+                        rating: 5, 
+                        content: "Excellent service! Our office has never looked better. The team was professional and efficient." 
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Carpet Cleaning",
+                category: "cleaning",
+                subcategory: "Specialized",
+                description: "Deep cleaning for carpets and rugs using professional equipment. Removes deep-set dirt, stains, and allergens for a fresher, cleaner home.",
+                price: 95,
+                rating: 4.8,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                additionalImages: [
+                    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80",
+                    "https://images.unsplash.com/photo-1583845112203-29329902330b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                ],
+                inclusions: [
+                    { name: "Carpet steam cleaning", price: 95 },
+                    { name: "Stain removal treatment", price: 0 },
+                    { name: "Deodorization", price: 0 },
+                    { name: "Protective treatment", price: 25 }
+                ],
+                durations: [
+                    { hours: 1, label: "Small Area" },
+                    { hours: 2, label: "Standard" },
+                    { hours: 3, label: "Large Area" }
+                ],
+                reviews: 37,
+                featured: true,
+                reviewsList: [
+                    { 
+                        name: "Sarah Williams", 
+                        date: "1 week ago", 
+                        rating: 5, 
+                        content: "Our carpets look brand new! The technician was very professional and did an amazing job removing old stains." 
+                    },
+                    { 
+                        name: "Michael Brown", 
+                        date: "2 months ago", 
+                        rating: 4, 
+                        content: "Good service, but took longer than expected. Results were excellent though." 
+                    }
+                ]
+            },
+            // (Other services from your all services page would continue here)
+        ];
+
+        // Sample time slots
+        const timeSlots = ["9:00 AM", "11:00 AM", "1:00 PM", "3:00 PM", "5:00 PM", "7:00 PM"];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get service ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceId = parseInt(urlParams.get('id'));
+            
+            // Find the service in our data
+            const service = services.find(s => s.id === serviceId);
+            
+            if (!service) {
+                // Handle case where service isn't found
+                document.getElementById('service-title').textContent = "Service Not Found";
+                document.getElementById('service-description').textContent = "The requested service could not be found. Please return to the services page.";
+                return;
+            }
+            
+            // Populate service details
+            document.getElementById('service-title-header').textContent = service.title;
+            document.getElementById('current-service-name').textContent = service.title;
+            document.getElementById('service-title').textContent = service.title;
+            document.getElementById('service-category').textContent = `${service.category} - ${service.subcategory}`;
+            document.getElementById('service-price').textContent = `$${service.price}`;
+            document.getElementById('total-price').textContent = `$${service.price}`;
+            document.getElementById('service-description').textContent = service.description;
+            
+            // Set availability
+            const availabilityElement = document.getElementById('service-availability');
+            if (service.availableToday) {
+                availabilityElement.innerHTML = '<i class="fas fa-check-circle"></i> Available Today';
+                availabilityElement.style.color = 'var(--success)';
+            } else {
+                availabilityElement.innerHTML = '<i class="fas fa-times-circle"></i> Not Available Today';
+                availabilityElement.style.color = 'var(--warning)';
+            }
+            
+            // Set rating stars
+            const ratingElement = document.getElementById('service-rating');
+            const fullStars = Math.floor(service.rating);
+            const hasHalfStar = service.rating % 1 >= 0.5;
+            
+            let starsHTML = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < 5 - fullStars - (hasHalfStar ? 1 : 0); i++) {
+                starsHTML += '<i class="far fa-star"></i>';
+            }
+            
+            ratingElement.innerHTML = starsHTML + `<span class="review-count">(${service.reviews})</span>`;
+            
+            // Set average rating in reviews section
+            document.getElementById('average-rating').innerHTML = `
+                <span class="average-number">${service.rating}</span>
+                <div class="rating-stars">
+                    ${starsHTML}
+                    <span class="review-count">(${service.reviews} reviews)</span>
+                </div>
+            `;
+            
+            // Set main image and thumbnails
+            const mainImage = document.getElementById('main-image');
+            mainImage.style.backgroundImage = `url('${service.image}')`;
+            
+            if (service.featured) {
+                mainImage.innerHTML = '<span class="image-badge">Featured</span>';
+            }
+            
+            if (service.availableToday) {
+                const badge = service.featured ? 
+                    '<span class="image-badge" style="right: 150px;">Available Today</span>' :
+                    '<span class="image-badge">Available Today</span>';
+                mainImage.innerHTML += badge;
+            }
+            
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            thumbnailContainer.innerHTML = '';
+            
+            // Add main image as first thumbnail
+            const mainThumb = document.createElement('div');
+            mainThumb.className = 'thumbnail active';
+            mainThumb.style.backgroundImage = `url('${service.image}')`;
+            mainThumb.addEventListener('click', function() {
+                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                mainImage.style.backgroundImage = this.style.backgroundImage;
+            });
+            thumbnailContainer.appendChild(mainThumb);
+            
+            // Add additional images as thumbnails
+            service.additionalImages.forEach(img => {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail';
+                thumb.style.backgroundImage = `url('${img}')`;
+                thumb.addEventListener('click', function() {
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    mainImage.style.backgroundImage = this.style.backgroundImage;
+                });
+                thumbnailContainer.appendChild(thumb);
+            });
+            
+            // Populate inclusions
+            const inclusionsList = document.getElementById('inclusions-list');
+            inclusionsList.innerHTML = '';
+            
+            service.inclusions.forEach(inc => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="inclusion-name">
+                        <i class="fas fa-check"></i>
+                        ${inc.name}
+                    </span>
+                    <span class="inclusion-price">${inc.price > 0 ? `$${inc.price}` : 'Included'}</span>
+                `;
+                inclusionsList.appendChild(li);
+            });
+            
+            // Populate reviews
+            const reviewsContainer = document.getElementById('reviews-container');
+            reviewsContainer.innerHTML = '';
+            
+            service.reviewsList.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                
+                let reviewStars = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i < review.rating) {
+                        reviewStars += '<i class="fas fa-star"></i>';
+                    } else {
+                        reviewStars += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                const initials = review.name.split(' ').map(n => n[0]).join('');
+                
+                reviewItem.innerHTML = `
+                    <div class="reviewer">
+                        <div class="reviewer-avatar">${initials}</div>
+                        <div class="reviewer-name">${review.name}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                    <div class="rating">
+                        ${reviewStars}
+                    </div>
+                    <div class="review-content">
+                        <p>${review.content}</p>
+                    </div>
+                `;
+                
+                reviewsContainer.appendChild(reviewItem);
+            });
+            
+            // Populate time slots
+            const timeSlotsContainer = document.getElementById('time-slots');
+            timeSlotsContainer.innerHTML = '';
+            
+            timeSlots.forEach(slot => {
+                const isUnavailable = Math.random() < 0.2; // 20% chance a slot is unavailable (for demo)
+                const timeSlot = document.createElement('div');
+                timeSlot.className = `time-slot ${isUnavailable ? 'unavailable' : ''}`;
+                timeSlot.textContent = slot;
+                
+                if (!isUnavailable) {
+                    timeSlot.addEventListener('click', function() {
+                        document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                }
+                
+                timeSlotsContainer.appendChild(timeSlot);
+            });
+            
+            // Select first available time slot by default
+            const firstAvailable = document.querySelector('.time-slot:not(.unavailable)');
+            if (firstAvailable) {
+                firstAvailable.classList.add('selected');
+            }
+            
+            // Populate duration options
+            const durationSelect = document.getElementById('service-duration');
+            durationSelect.innerHTML = '';
+            
+            service.durations.forEach(duration => {
+                const option = document.createElement('option');
+                option.value = duration.hours;
+                option.textContent = `${duration.hours} hours (${duration.label})`;
+                durationSelect.appendChild(option);
+            });
+            
+            // Find and display similar services (same category)
+            const similarServices = services.filter(s => 
+                s.category === service.category && s.id !== service.id).slice(0, 3);
+            
+            const similarServicesGrid = document.getElementById('similar-services-grid');
+            similarServicesGrid.innerHTML = '';
+            
+            similarServices.forEach(similar => {
+                const serviceCard = document.createElement('div');
+                serviceCard.className = 'service-card';
+                
+                let starsHTML = '';
+                const fullStars = Math.floor(similar.rating);
+                const hasHalfStar = similar.rating % 1 >= 0.5;
+                
+                for (let i = 0; i < fullStars; i++) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                }
+                if (hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                }
+                for (let i = 0; i < 5 - fullStars - (hasHalfStar ? 1 : 0); i++) {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+                
+                serviceCard.innerHTML = `
+                    <div class="service-image" style="background-image: url('${similar.image}')">
+                        ${similar.featured ? '<span class="service-badge">Featured</span>' : ''}
+                        ${similar.availableToday ? '<span class="service-badge" style="background-color: var(--success);">Available Today</span>' : ''}
+                    </div>
+                    <div class="service-info">
+                        <h3>${similar.title}</h3>
+                        <span class="service-subcategory">${similar.subcategory}</span>
+                        <p>${similar.description.substring(0, 100)}...</p>
+                        <div class="service-meta">
+                            <span class="price">$${similar.price}</span>
+                            <span class="rating">
+                                ${starsHTML}
+                                <span class="rating-count">(${similar.reviews})</span>
+                            </span>
+                        </div>
+                        <a href="service-detail.html?id=${similar.id}" class="btn btn-primary book-now">Book Now</a>
+                    </div>
+                `;
+                
+                similarServicesGrid.appendChild(serviceCard);
+            });
+            
+            // Set minimum date for booking (today)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('booking-date').min = today;
+            
+            // Booking form submission
+            const bookingForm = document.getElementById('bookingForm');
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const date = document.getElementById('booking-date').value;
+                const time = document.querySelector('.time-slot.selected').textContent;
+                const duration = document.getElementById('service-duration').value;
+                const address = document.getElementById('location').value;
+                const notes = document.getElementById('special-notes').value;
+                
+                // In a real app, you would send this data to your backend
+                console.log('Booking submitted:', {
+                    serviceId: service.id,
+                    serviceName: service.title,
+                    date,
+                    time,
+                    duration,
+                    address,
+                    notes
+                });
+                
+                // Show success message
+                alert(`Booking successful for ${service.title}! A confirmation has been sent to your email.`);
+                
+                // Redirect to dashboard or booking confirmation page
+                // window.location.href = 'booking-confirmation.html';
+            });
+            
+            // Chatbot functionality
+            const chatbotIcon = document.querySelector('.chatbot-icon');
+            chatbotIcon.addEventListener('click', () => {
+                alert('Chatbot service will open here. This is a demo.');
+            });
+        });
+    </script>
+</body>
+</html>

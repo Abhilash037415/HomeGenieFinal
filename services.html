@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servizio - All Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 0 30px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .breadcrumb li {
+            margin-right: 10px;
+        }
+
+        .breadcrumb li:after {
+            content: '/';
+            margin-left: 10px;
+        }
+
+        .breadcrumb li:last-child:after {
+            content: '';
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Services Layout */
+        .services-page {
+            padding: 30px 0 80px;
+        }
+
+        .services-content {
+            display: flex;
+            gap: 30px;
+        }
+
+        /* Filters Sidebar */
+        .filters-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .filter-options {
+            list-style: none;
+        }
+
+        .filter-options li {
+            margin-bottom: 10px;
+        }
+
+        .filter-options label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .filter-options input[type="checkbox"],
+        .filter-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .price-range input {
+            width: 100px;
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Services Grid */
+        .services-grid-container {
+            flex: 1;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--warning);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .service-info {
+            padding: 20px;
+        }
+
+        .service-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .service-subcategory {
+            display: inline-block;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .service-info p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .rating {
+            color: #ffc107;
+            display: flex;
+            align-items: center;
+        }
+
+        .rating-count {
+            color: var(--gray);
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .book-now {
+            margin-top: 15px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            list-style: none;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .pagination a:hover,
+        .pagination .active a {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Results Count */
+        .results-count {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* Chatbot */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+        }
+
+        .chatbot-tooltip {
+            position: absolute;
+            right: 70px;
+            background: white;
+            color: var(--dark);
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .chatbot-icon:hover .chatbot-tooltip {
+            opacity: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .services-content {
+                flex-direction: column;
+            }
+            
+            .filters-sidebar {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 28px;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-range {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .price-range input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- Navbar -->
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Home genie">
+                <h1>Home Genie</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="professionals.html">Professionals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>All Services</h1>
+            <ul class="breadcrumb">
+                <li><a href="dashboard.html">Home</a></li>
+                <li>Services</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Services Page Content -->
+    <section class="services-page">
+        <div class="container">
+            <div class="services-content">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <ul class="filter-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="cleaning" checked> 
+                                    Cleaning
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="plumbing" checked> 
+                                    Plumbing
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="electrical" checked> 
+                                    Electrical
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="beauty" checked> 
+                                    Beauty
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="laundry" checked> 
+                                    Laundry
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="babycare" checked> 
+                                    Baby Care
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="petgrooming" checked> 
+                                    Pet Grooming
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="category" value="handyman" checked> 
+                                    Handyman
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="price-range">
+                            <input type="number" placeholder="Min" id="price-min" value="0" min="0">
+                            <span>to</span>
+                            <input type="number" placeholder="Max" id="price-max" value="200" min="0">
+                        </div>
+                        <div id="price-slider" style="margin-top: 15px;"></div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Rating</h3>
+                        <ul class="filter-options">
+                            <li>
+                                <label>
+                                    <input type="radio" name="rating" value="4" checked> 
+                                    4+ Stars
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="rating" value="3"> 
+                                    3+ Stars
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="rating" value="2"> 
+                                    2+ Stars
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="rating" value="1"> 
+                                    1+ Stars
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Availability</h3>
+                        <label style="display: flex; align-items: center; justify-content: space-between;">
+                            <span>Available Today</span>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="available-today">
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" id="apply-filters">Apply Filters</button>
+                    <button class="btn btn-outline btn-block" id="reset-filters">Reset Filters</button>
+                </aside>
+                
+                <!-- Services Grid -->
+                <div class="services-grid-container">
+                    <div class="results-count" id="results-count">Loading services...</div>
+                    
+                    <div class="services-grid" id="services-grid">
+                        <!-- Service cards will be dynamically inserted here -->
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <ul class="pagination" id="pagination">
+                        <li><a href="#" id="prev-page"><i class="fas fa-chevron-left"></i></a></li>
+                        <!-- Page numbers will be inserted here -->
+                        <li><a href="#" id="next-page"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <img src="logo.png" alt="Home Genie Logo">
+                        <h1>Home Genie</h1>
+                    </div>
+                    <p>Your trusted partner for all home services. Quality professionals at your doorstep.</p>
+                    <div class="footer-social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="professionals.html">Professionals</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Laundry</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> vignan university</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> homegenie@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Home Genie All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Chatbot -->
+    <div class="chatbot-icon">
+        <i class="fas fa-comment-dots"></i>
+        <div class="chatbot-tooltip">Need help finding a service?</div>
+    </div>
+    
+    <script>
+        // Enhanced service data with subcategories and all photos
+        const services = [
+            {
+                id: 1,
+                title: "Deep Home Cleaning",
+                category: "cleaning",
+                subcategory: "Residential",
+                description: "Thorough cleaning of your entire home including kitchen, bathrooms, and living areas.",
+                price: 120,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 42,
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Office Cleaning",
+                category: "cleaning",
+                subcategory: "Commercial",
+                description: "Professional cleaning services for your office space.",
+                price: 150,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 27,
+                featured: false
+            },
+            {
+                id: 3,
+                title: "Carpet Cleaning",
+                category: "cleaning",
+                subcategory: "Specialized",
+                description: "Deep cleaning for carpets and rugs using professional equipment.",
+                price: 95,
+                rating: 4.8,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 37,
+                featured: true
+            },
+            {
+                id: 4,
+                title: "Emergency Plumbing",
+                category: "plumbing",
+                subcategory: "Repair",
+                description: "24/7 plumbing services for leaks, clogs, and other urgent issues.",
+                price: 85,
+                rating: 5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 36,
+                featured: false
+            },
+            {
+                id: 5,
+                title: "Bathroom Remodeling",
+                category: "plumbing",
+                subcategory: "Installation",
+                description: "Complete bathroom remodeling including plumbing fixtures installation.",
+                price: 250,
+                rating: 4.7,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 29,
+                featured: true
+            },
+            {
+                id: 6,
+                title: "Water Heater Installation",
+                category: "plumbing",
+                subcategory: "Installation",
+                description: "Professional installation of water heaters with warranty.",
+                price: 180,
+                rating: 4.6,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 24,
+                featured: false
+            },
+            {
+                id: 7,
+                title: "Haircut at Home",
+                category: "beauty",
+                subcategory: "Hair",
+                description: "Professional haircut and styling in the comfort of your home.",
+                price: 35,
+                rating: 4,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+                reviews: 28,
+                featured: false
+            },
+            {
+                id: 8,
+                title: "Makeup Artist",
+                category: "beauty",
+                subcategory: "Makeup",
+                description: "Professional makeup services for special occasions.",
+                price: 75,
+                rating: 5,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1487&q=80",
+                reviews: 39,
+                featured: true
+            },
+            {
+                id: 9,
+                title: "Manicure & Pedicure",
+                category: "beauty",
+                subcategory: "Nails",
+                description: "Professional nail care services at your home.",
+                price: 40,
+                rating: 4.9,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 45,
+                featured: true
+            },
+            {
+                id: 10,
+                title: "Appliance Repair",
+                category: "handyman",
+                subcategory: "Repair",
+                description: "Expert repair for refrigerators, washing machines, and other appliances.",
+                price: 65,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 31,
+                featured: true
+            },
+            {
+                id: 11,
+                title: "Furniture Assembly",
+                category: "handyman",
+                subcategory: "Assembly",
+                description: "Expert assembly of furniture and flat-pack items.",
+                price: 55,
+                rating: 4,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 18,
+                featured: false
+            },
+            {
+                id: 12,
+                title: "Moving Assistance",
+                category: "handyman",
+                subcategory: "Moving",
+                description: "Help with packing, loading and unloading for your move.",
+                price: 80,
+                rating: 4.6,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 33,
+                featured: false
+            },
+            {
+                id: 13,
+                title: "Electrical Wiring",
+                category: "electrical",
+                subcategory: "Installation",
+                description: "Professional electrical wiring and fixture installation services.",
+                price: 90,
+                rating: 4,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 19,
+                featured: false
+            },
+            {
+                id: 14,
+                title: "Light Installation",
+                category: "electrical",
+                subcategory: "Installation",
+                description: "Professional installation of light fixtures and switches.",
+                price: 70,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                reviews: 24,
+                featured: false
+            },
+            {
+                id: 15,
+                title: "AC Repair",
+                category: "electrical",
+                subcategory: "Repair",
+                description: "Expert air conditioning repair and maintenance services.",
+                price: 110,
+                rating: 4.7,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 29,
+                featured: false
+            },
+            {
+                id: 16,
+                title: "Laundry Service",
+                category: "laundry",
+                subcategory: "Wash & Fold",
+                description: "Pickup, wash, dry and fold services for your laundry needs.",
+                price: 45,
+                rating: 4.5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1582731594633-91ba7b5f1366?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 47,
+                featured: false
+            },
+            {
+                id: 17,
+                title: "Dry Cleaning",
+                category: "laundry",
+                subcategory: "Specialty",
+                description: "Professional dry cleaning for delicate fabrics and garments.",
+                price: 60,
+                rating: 4.3,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1594043240530-5beb5e4d0f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 21,
+                featured: false
+            },
+            {
+                id: 18,
+                title: "Baby Sitting",
+                category: "babycare",
+                subcategory: "Childcare",
+                description: "Experienced nannies and babysitters for your little ones.",
+                price: 25,
+                rating: 5,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1519602035691-16ac091344ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 53,
+                featured: true
+            },
+            {
+                id: 19,
+                title: "Pet Grooming",
+                category: "petgrooming",
+                subcategory: "Grooming",
+                description: "Professional pet grooming services at your home.",
+                price: 50,
+                rating: 4,
+                availableToday: false,
+                image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                reviews: 22,
+                featured: false
+            },
+            {
+                id: 20,
+                title: "Dog Walking",
+                category: "petgrooming",
+                subcategory: "Exercise",
+                description: "Daily dog walking services for your furry friends.",
+                price: 20,
+                rating: 4.8,
+                availableToday: true,
+                image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1378&q=80",
+                reviews: 38,
+                featured: true
+            }
+        ];
+        
+        // Current state
+        let currentPage = 1;
+        const servicesPerPage = 8;
+        let filteredServices = [...services];
+        
+        // Function to render services based on filters and pagination
+        function renderServices() {
+            const servicesGrid = document.getElementById('services-grid');
+            servicesGrid.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * servicesPerPage;
+            const endIndex = startIndex + servicesPerPage;
+            const servicesToDisplay = filteredServices.slice(startIndex, endIndex);
+            
+            if (servicesToDisplay.length === 0) {
+                servicesGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <i class="fas fa-search" style="font-size: 48px; color: var(--gray); margin-bottom: 20px;"></i>
+                        <h3 style="margin-bottom: 10px;">No services found</h3>
+                        <p>Try adjusting your filters or search criteria</p>
+                        <button class="btn btn-outline" id="reset-filters-btn" style="margin-top: 20px;">Reset All Filters</button>
+                    </div>
+                `;
+                
+                document.getElementById('reset-filters-btn').addEventListener('click', resetFilters);
+            } else {
+                servicesToDisplay.forEach(service => {
+                    const ratingStars = Array(Math.floor(service.rating)).fill('<i class="fas fa-star"></i>').join('') + 
+                                       (service.rating % 1 ? '<i class="fas fa-star-half-alt"></i>' : '');
+                    
+                    const serviceCard = document.createElement('div');
+                    serviceCard.className = 'service-card';
+                    serviceCard.innerHTML = `
+                        <div class="service-image" style="background-image: url('${service.image}')">
+                            ${service.featured ? '<span class="service-badge">Featured</span>' : ''}
+                            ${service.availableToday ? '<span class="service-badge" style="background-color: var(--success);">Available Today</span>' : ''}
+                        </div>
+                        <div class="service-info">
+                            <h3>${service.title}</h3>
+                            <span class="service-subcategory">${service.subcategory}</span>
+                            <p>${service.description}</p>
+                            <div class="service-meta">
+                                <span class="price">$${service.price}</span>
+                                <span class="rating">
+                                    ${ratingStars}
+                                    <span class="rating-count">(${service.reviews})</span>
+                                </span>
+                            </div>
+                            <a href="service-detail.html?id=${service.id}" class="btn btn-primary book-now">Book Now</a>
+                        </div>
+                    `;
+                    
+                    servicesGrid.appendChild(serviceCard);
+                });
+            }
+            
+            // Update results count
+            document.getElementById('results-count').textContent = 
+                `Showing ${startIndex + 1}-${Math.min(endIndex, filteredServices.length)} of ${filteredServices.length} services`;
+            
+            // Update pagination
+            updatePagination();
+        }
+        
+        // Function to update pagination controls
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            // Clear existing page numbers (keep prev/next buttons)
+            while (pagination.children.length > 2) {
+                pagination.removeChild(pagination.children[1]);
+            }
+            
+            // Add page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                if (i === currentPage) li.className = 'active';
+                
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = i;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderServices();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                
+                li.appendChild(a);
+                pagination.insertBefore(li, document.getElementById('next-page').parentNode);
+            }
+            
+            // Update prev/next button states
+            document.getElementById('prev-page').parentNode.classList.toggle('disabled', currentPage === 1);
+            document.getElementById('next-page').parentNode.classList.toggle('disabled', currentPage === totalPages || totalPages === 0);
+        }
+        
+        // Function to apply filters
+        function applyFilters() {
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+            const minPrice = parseFloat(document.getElementById('price-min').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('price-max').value) || Infinity;
+            const minRating = parseFloat(document.querySelector('input[name="rating"]:checked').value);
+            const availableToday = document.getElementById('available-today').checked;
+            
+            filteredServices = services.filter(service => {
+                const price = parseFloat(service.price);
+                return selectedCategories.includes(service.category) &&
+                       price >= minPrice &&
+                       price <= maxPrice &&
+                       service.rating >= minRating &&
+                       (!availableToday || service.availableToday);
+            });
+            
+            // Reset to first page when filters change
+            currentPage = 1;
+            
+            renderServices();
+        }
+        
+        // Function to reset filters
+        function resetFilters() {
+            document.querySelectorAll('input[name="category"]').forEach(cb => cb.checked = true);
+            document.getElementById('price-min').value = 0;
+            document.getElementById('price-max').value = 200;
+            document.querySelector('input[name="rating"][value="4"]').checked = true;
+            document.getElementById('available-today').checked = false;
+            
+            // Reset price slider if it exists
+            if (window.priceSlider) {
+                window.priceSlider.noUiSlider.set([0, 200]);
+            }
+            
+            filteredServices = [...services];
+            currentPage = 1;
+            renderServices();
+        }
+        
+        // Initialize price range slider
+        function initPriceSlider() {
+            const priceSlider = document.getElementById('price-slider');
+            const priceMinInput = document.getElementById('price-min');
+            const priceMaxInput = document.getElementById('price-max');
+            
+            // Find max price in services
+            const maxPrice = Math.max(...services.map(service => service.price));
+            
+            noUiSlider.create(priceSlider, {
+                start: [0, 200],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': Math.ceil(maxPrice / 50) * 50 // Round up to nearest 50
+                },
+                step: 5,
+                tooltips: [true, true],
+                format: {
+                    to: function(value) {
+                        return '$' + Math.round(value);
+                    },
+                    from: function(value) {
+                        return Number(value.replace('$', ''));
+                    }
+                }
+            });
+            
+            priceSlider.noUiSlider.on('update', function(values, handle) {
+                const value = values[handle];
+                if (handle) {
+                    priceMaxInput.value = Math.round(value);
+                } else {
+                    priceMinInput.value = Math.round(value);
+                }
+            });
+            
+            priceMinInput.addEventListener('change', function() {
+                priceSlider.noUiSlider.set([this.value, null]);
+            });
+            
+            priceMaxInput.addEventListener('change', function() {
+                priceSlider.noUiSlider.set([null, this.value]);
+            });
+            
+            // Store reference to slider
+            window.priceSlider = priceSlider;
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize filters
+            document.getElementById('apply-filters').addEventListener('click', applyFilters);
+            document.getElementById('reset-filters').addEventListener('click', resetFilters);
+            
+            // Also apply filters when price inputs change
+            document.getElementById('price-min').addEventListener('change', applyFilters);
+            document.getElementById('price-max').addEventListener('change', applyFilters);
+            
+            // Also apply filters when category checkboxes change
+            document.querySelectorAll('input[name="category"]').forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
+            });
+            
+            // Also apply filters when rating radio buttons change
+            document.querySelectorAll('input[name="rating"]').forEach(radio => {
+                radio.addEventListener('change', applyFilters);
+            });
+            
+            // Also apply filters when availability toggle changes
+            document.getElementById('available-today').addEventListener('change', applyFilters);
+            
+            // Pagination controls
+            document.getElementById('prev-page').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderServices();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+            
+            document.getElementById('next-page').addEventListener('click', (e) => {
+                e.preventDefault();
+                const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderServices();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+            
+            // Initialize price slider if noUiSlider is available
+            if (typeof noUiSlider !== 'undefined') {
+                initPriceSlider();
+            }
+            
+            // Initial render
+            renderServices();
+            
+            // Chatbot functionality
+            const chatbotIcon = document.querySelector('.chatbot-icon');
+            chatbotIcon.addEventListener('click', () => {
+                alert('Chatbot service will open here. This is a demo.');
+            });
+        });
+    </script>
+    
+    <!-- Load noUiSlider CSS and JS if you want to use the price range slider -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+</body>
+</html>
